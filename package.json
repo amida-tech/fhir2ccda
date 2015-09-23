@@ -1,0 +1,34 @@
+{
+    "name": "fhir2ccda",
+    "version": "0.0.1",
+    "description": "FHIR to CCDA",
+    "main": "./index.js",
+    "directories": {
+        "lib": "lib"
+    },
+    "scripts": {
+        "test": "grunt mocha",
+        "verify": "grunt"
+    },
+    "author": "Afsin Ustundag <afsin.ustundag@us.pwc.com>",
+    "license": "Apache-2.0",
+    "engines": {
+        "node": ">= 0.12.0"
+    },
+    "dependencies": {
+    },
+    "devDependencies": {
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/amida-tech/fhir2ccda.git"
+    },
+    "keywords": [
+        "CCDA",
+        "FHIR"
+    ],
+    "bugs": {
+        "url": "https://github.com/amida-tech/fhir2ccda/issues"
+    },
+    "homepage": "https://github.com/amida-tech/fhir2ccda"
+}
