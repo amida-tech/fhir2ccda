@@ -16,8 +16,20 @@
         "node": ">= 0.12.0"
     },
     "dependencies": {
+        "jsonapter": "0.0.1",
+        "lodash": "^3.10.1",
+        "xml2js": "^0.4.12"
     },
     "devDependencies": {
+        "cda-fhir": "https://github.com/amida-tech/cda-fhir",
+        "chai": "^3.3.0",
+        "grunt": "^0.4.5",
+        "grunt-contrib-jshint": "^0.11.3",
+        "grunt-contrib-watch": "^0.6.1",
+        "grunt-jsbeautifier": "^0.2.10",
+        "grunt-mocha-test": "^0.12.7",
+        "grunt-shell": "^1.1.2",
+        "mocha": "^2.3.3"
     },
     "repository": {
         "type": "git",
