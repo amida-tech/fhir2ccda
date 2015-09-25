@@ -1,6 +1,6 @@
 "use strict";
 
-var expect = require('chai').expect;
+var chai = require('chai');
 
 var fs = require("fs");
 var path = require('path');
@@ -10,6 +10,8 @@ var cdafhir = require('cda-fhir');
 
 var fhir2ccda = require('../../index');
 var jsonUtil = require('../util/json-transform');
+
+var expect = chai.expect;
 
 describe('xml vs parse-generate xml ', function () {
     var generatedDir = null;
@@ -80,6 +82,14 @@ describe('xml vs parse-generate xml ', function () {
 
     var ccdaJSONGenerated = null;
 
+    var ccdaArrayize = [
+        'ClinicalDocument.recordTarget.patientRole.addr',
+        'ClinicalDocument.recordTarget.patientRole.telecom',
+        'ClinicalDocument.recordTarget.patientRole.addr[0].streetAddressLine',
+        'ClinicalDocument.recordTarget.patientRole.patient.name.family',
+        'ClinicalDocument.recordTarget.patientRole.patient.languageCommunication'
+    ];
+
     it('fhir to ccda-json', function () {
         ccdaJSONGenerated = fhir2ccda.generateCCD(fhir, {
             json: true
@@ -111,13 +121,7 @@ describe('xml vs parse-generate xml ', function () {
             'ClinicalDocument.documentationOf',
             'ClinicalDocument.component'
         ]);
-        jsonUtil.arrayize(ccdaJSONOriginal, [
-            'ClinicalDocument.recordTarget.patientRole.addr',
-            'ClinicalDocument.recordTarget.patientRole.telecom',
-            'ClinicalDocument.recordTarget.patientRole.addr[0].streetAddressLine',
-            'ClinicalDocument.recordTarget.patientRole.patient.name.family',
-            'ClinicalDocument.recordTarget.patientRole.patient.languageCommunication'
-        ]);
+        jsonUtil.arrayize(ccdaJSONOriginal, ccdaArrayize);
         var filepathOriginal = path.join(generatedDir, 'CCD_1_original_modified.json');
         var ccdaJSONOriginalJS = JSON.stringify(ccdaJSONOriginal, undefined, 4);
         fs.writeFileSync(filepathOriginal, ccdaJSONOriginalJS);
@@ -136,13 +140,7 @@ describe('xml vs parse-generate xml ', function () {
             if (err) {
                 done(err);
             } else {
-                jsonUtil.arrayize(result, [
-                    'ClinicalDocument.recordTarget.patientRole.addr',
-                    'ClinicalDocument.recordTarget.patientRole.telecom',
-                    'ClinicalDocument.recordTarget.patientRole.addr[0].streetAddressLine',
-                    'ClinicalDocument.recordTarget.patientRole.patient.name.family',
-                    'ClinicalDocument.recordTarget.patientRole.patient.languageCommunication'
-                ]);
+                jsonUtil.arrayize(result, ccdaArrayize);
                 expect(result).to.deep.equal(ccdaJSONGenerated);
                 done();
             }
