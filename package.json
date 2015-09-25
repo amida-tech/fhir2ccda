@@ -16,7 +16,9 @@
         "node": ">= 0.12.0"
     },
     "dependencies": {
+        "bunyan": "^1.5.1",
         "jsonapter": "0.0.1",
+        "jsonave": "0.0.2",
         "lodash": "^3.10.1",
         "xml2js": "^0.4.12"
     },

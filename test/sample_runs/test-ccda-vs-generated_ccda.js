@@ -92,16 +92,11 @@ describe('xml vs parse-generate xml ', function () {
             'ClinicalDocument.effectiveTime',
             'ClinicalDocument.confidentialityCode',
             'ClinicalDocument.setId',
-            'ClinicalDocument.recordTarget.patientRole.id',
-            'ClinicalDocument.recordTarget.patientRole.addr',
-            'ClinicalDocument.recordTarget.patientRole.telecom',
             'ClinicalDocument.recordTarget.patientRole.patient.name.$',
-            'ClinicalDocument.recordTarget.patientRole.patient.administrativeGenderCode',
-            'ClinicalDocument.recordTarget.patientRole.patient.birthTime',
-            'ClinicalDocument.recordTarget.patientRole.patient.maritalStatusCode',
-            'ClinicalDocument.recordTarget.patientRole.patient.religiousAffiliationCode',
-            'ClinicalDocument.recordTarget.patientRole.patient.raceCode',
-            'ClinicalDocument.recordTarget.patientRole.patient.ethnicGroupCode',
+            'ClinicalDocument.recordTarget.patientRole.patient.maritalStatusCode.$.codeSystemName',
+            'ClinicalDocument.recordTarget.patientRole.patient.religiousAffiliationCode.$.codeSystemName',
+            'ClinicalDocument.recordTarget.patientRole.patient.raceCode.$.codeSystemName',
+            'ClinicalDocument.recordTarget.patientRole.patient.ethnicGroupCode.$.codeSystemName',
             'ClinicalDocument.recordTarget.patientRole.patient.guardian',
             'ClinicalDocument.recordTarget.patientRole.patient.birthplace',
             'ClinicalDocument.recordTarget.patientRole.patient.languageCommunication',
@@ -117,6 +112,9 @@ describe('xml vs parse-generate xml ', function () {
             'ClinicalDocument.component'
         ]);
         jsonUtil.arrayize(ccdaJSONOriginal, [
+            'ClinicalDocument.recordTarget.patientRole.addr',
+            'ClinicalDocument.recordTarget.patientRole.telecom',
+            'ClinicalDocument.recordTarget.patientRole.addr[0].streetAddressLine',
             'ClinicalDocument.recordTarget.patientRole.patient.name.family'
         ]);
         var filepathOriginal = path.join(generatedDir, 'CCD_1_original_modified.json');
@@ -138,6 +136,9 @@ describe('xml vs parse-generate xml ', function () {
                 done(err);
             } else {
                 jsonUtil.arrayize(result, [
+                    'ClinicalDocument.recordTarget.patientRole.addr',
+                    'ClinicalDocument.recordTarget.patientRole.telecom',
+                    'ClinicalDocument.recordTarget.patientRole.addr[0].streetAddressLine',
                     'ClinicalDocument.recordTarget.patientRole.patient.name.family'
                 ]);
                 expect(result).to.deep.equal(ccdaJSONGenerated);
