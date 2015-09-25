@@ -98,8 +98,8 @@ describe('xml vs parse-generate xml ', function () {
             'ClinicalDocument.recordTarget.patientRole.patient.raceCode.$.codeSystemName',
             'ClinicalDocument.recordTarget.patientRole.patient.ethnicGroupCode.$.codeSystemName',
             'ClinicalDocument.recordTarget.patientRole.patient.guardian',
-            'ClinicalDocument.recordTarget.patientRole.patient.birthplace',
-            'ClinicalDocument.recordTarget.patientRole.patient.languageCommunication',
+            'ClinicalDocument.recordTarget.patientRole.patient.languageCommunication.modeCode',
+            'ClinicalDocument.recordTarget.patientRole.patient.languageCommunication.proficiencyLevelCode',
             'ClinicalDocument.recordTarget.patientRole.providerOrganization',
             'ClinicalDocument.author',
             'ClinicalDocument.dataEnterer',
@@ -115,7 +115,8 @@ describe('xml vs parse-generate xml ', function () {
             'ClinicalDocument.recordTarget.patientRole.addr',
             'ClinicalDocument.recordTarget.patientRole.telecom',
             'ClinicalDocument.recordTarget.patientRole.addr[0].streetAddressLine',
-            'ClinicalDocument.recordTarget.patientRole.patient.name.family'
+            'ClinicalDocument.recordTarget.patientRole.patient.name.family',
+            'ClinicalDocument.recordTarget.patientRole.patient.languageCommunication'
         ]);
         var filepathOriginal = path.join(generatedDir, 'CCD_1_original_modified.json');
         var ccdaJSONOriginalJS = JSON.stringify(ccdaJSONOriginal, undefined, 4);
@@ -139,7 +140,8 @@ describe('xml vs parse-generate xml ', function () {
                     'ClinicalDocument.recordTarget.patientRole.addr',
                     'ClinicalDocument.recordTarget.patientRole.telecom',
                     'ClinicalDocument.recordTarget.patientRole.addr[0].streetAddressLine',
-                    'ClinicalDocument.recordTarget.patientRole.patient.name.family'
+                    'ClinicalDocument.recordTarget.patientRole.patient.name.family',
+                    'ClinicalDocument.recordTarget.patientRole.patient.languageCommunication'
                 ]);
                 expect(result).to.deep.equal(ccdaJSONGenerated);
                 done();
