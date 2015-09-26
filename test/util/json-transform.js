@@ -1,6 +1,9 @@
 "use strict";
 
 var _ = require('lodash');
+var jsonave = require('jsonave');
+
+var jp = jsonave.instance;
 
 exports.arrayize = function (obj, paths) {
     paths.forEach(function (path) {
@@ -24,5 +27,26 @@ exports.delete = function (obj, paths) {
         if (parentObject !== null) {
             delete parentObject[prop];
         }
+    });
+};
+
+exports.deleteTemplate = function (obj, path, templatePath, id) {
+    var components = _.get(obj, path, null);
+    if (components && Array.isArray(components)) {
+        var f = jp(templatePath);
+        var newComponents = components.reduce(function (r, component) {
+            var componentIds = f(component);
+            if (componentIds && (componentIds.indexOf(id) < 0)) {
+                r.push(component);
+            }
+            return r;
+        }, []);
+        _.set(obj, path, newComponents);
+    }
+};
+
+exports.deleteTemplates = function (obj, path, templatePath, ids) {
+    ids.forEach(function (id) {
+        exports.deleteTemplate(obj, path, templatePath, id);
     });
 };

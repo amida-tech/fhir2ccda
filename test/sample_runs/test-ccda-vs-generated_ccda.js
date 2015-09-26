@@ -7,6 +7,7 @@ var path = require('path');
 
 var xml2js = require('xml2js');
 var cdafhir = require('cda-fhir');
+var _ = require('lodash');
 
 var fhir2ccda = require('../../index');
 var jsonUtil = require('../util/json-transform');
@@ -87,7 +88,8 @@ describe('xml vs parse-generate xml ', function () {
         'ClinicalDocument.recordTarget.patientRole.telecom',
         'ClinicalDocument.recordTarget.patientRole.addr[0].streetAddressLine',
         'ClinicalDocument.recordTarget.patientRole.patient.name.family',
-        'ClinicalDocument.recordTarget.patientRole.patient.languageCommunication'
+        'ClinicalDocument.recordTarget.patientRole.patient.languageCommunication',
+        'ClinicalDocument.component.structuredBody.component'
     ];
 
     it('fhir to ccda-json', function () {
@@ -118,14 +120,40 @@ describe('xml vs parse-generate xml ', function () {
             'ClinicalDocument.informationRecipient',
             'ClinicalDocument.legalAuthenticator',
             'ClinicalDocument.authenticator',
-            'ClinicalDocument.documentationOf',
-            'ClinicalDocument.component'
+            'ClinicalDocument.documentationOf'
         ]);
+        jsonUtil.deleteTemplates(ccdaJSONOriginal, 'ClinicalDocument.component.structuredBody.component', 'section.templateId[*]["$"].root', [
+            '2.16.840.1.113883.10.20.22.2.2',
+            '2.16.840.1.113883.10.20.22.2.1',
+            '2.16.840.1.113883.10.20.22.2.22',
+            '2.16.840.1.113883.10.20.22.2.21',
+            '2.16.840.1.113883.10.20.22.2.5',
+            '2.16.840.1.113883.10.20.22.2.7',
+            '2.16.840.1.113883.10.20.22.2.14',
+            '2.16.840.1.113883.10.20.22.2.23',
+            '2.16.840.1.113883.10.20.22.2.3',
+            '2.16.840.1.113883.10.20.22.2.17',
+            '2.16.840.1.113883.10.20.22.2.4'
+        ]);
+        jsonUtil.delete(ccdaJSONOriginal, [
+            'ClinicalDocument.component.structuredBody.component[0].section.title',
+            'ClinicalDocument.component.structuredBody.component[0].section.text',
+            'ClinicalDocument.component.structuredBody.component[0].section.entry'
+        ]);
+
         jsonUtil.arrayize(ccdaJSONOriginal, ccdaArrayize);
         var filepathOriginal = path.join(generatedDir, 'CCD_1_original_modified.json');
         var ccdaJSONOriginalJS = JSON.stringify(ccdaJSONOriginal, undefined, 4);
         fs.writeFileSync(filepathOriginal, ccdaJSONOriginalJS);
-        expect(ccdaJSONGenerated).to.deep.equal(ccdaJSONOriginal);
+
+        var ccdaJSONGeneratedMod = _.cloneDeep(ccdaJSONGenerated);
+        jsonUtil.delete(ccdaJSONGeneratedMod, [
+            'ClinicalDocument.component.structuredBody.component[0].section.code.$.displayName',
+            'ClinicalDocument.component.structuredBody.component[0].section.code.$.codeSystemName',
+            'ClinicalDocument.component.structuredBody.component[0].section.title',
+        ]);
+
+        expect(ccdaJSONGeneratedMod).to.deep.equal(ccdaJSONOriginal);
     });
 
     it('fhir to ccda', function (done) {
