@@ -5,23 +5,6 @@ var jsonave = require('jsonave');
 
 var jp = jsonave.instance;
 
-exports.arrayizeAll = function (obj, path) {
-    var pieces = path.split('.');
-    var n = pieces.length;
-    var property = pieces[n - 1];
-    path = path + '.^';
-    var f = jp(path, {
-        wrap: true
-    });
-    var elements = f(obj);
-    elements.forEach(function (element) {
-        var leaf = element[property];
-        if ((leaf !== undefined) && (leaf !== null) && !Array.isArray(leaf)) {
-            element[property] = [leaf];
-        }
-    });
-};
-
 exports.transform = (function () {
     var getLastPiece = function (path, delimiter) {
         var pieces = path.split(delimiter);
@@ -52,26 +35,22 @@ exports.transform = (function () {
         });
     };
 
-    var fArrayize = function (element, property) {
-        var leaf = element[property];
-        if ((leaf !== undefined) && (leaf !== null) && !Array.isArray(leaf)) {
-            element[property] = [leaf];
-        }
-    };
-
-    var fDelete = function (element, property) {
-        delete element[property];
-    };
-
     var actionMap = {
-        arrayize: function (obj, path) {
-            applyToParentProperty(obj, path, fArrayize);
+        arrayize: function (obj, actionInfo) {
+            applyToParentProperty(obj, actionInfo.path, function (element, property) {
+                var leaf = element[property];
+                if ((leaf !== undefined) && (leaf !== null) && !Array.isArray(leaf)) {
+                    element[property] = [leaf];
+                }
+            });
         },
-        delete: function (obj, path) {
-            applyToParentProperty(obj, path, fDelete);
+        delete: function (obj, actionInfo) {
+            applyToParentProperty(obj, actionInfo.path, function (element, property) {
+                delete element[property];
+            });
         },
-        filter: function (obj, path, actionInfo) {
-            var components = _.get(obj, path, null);
+        filter: function (obj, actionInfo) {
+            var components = _.get(obj, actionInfo.path, null);
             if (components && Array.isArray(components)) {
                 var f = jp(actionInfo.filterPath, {
                     wrap: true
@@ -87,25 +66,19 @@ exports.transform = (function () {
                     }
                     return r;
                 }, []);
-                _.set(obj, path, newComponents);
+                _.set(obj, actionInfo.path, newComponents);
             }
+        },
+        root: function (obj, actionInfo) {
+            var root = _.get(obj, actionInfo.path, null);
+            this.run(root, actionInfo.children);
         },
         run: function (obj, actionInfos) {
             var self = this;
             actionInfos.forEach(function (actionInfo) {
-                var path = actionInfo.path;
-                if (path) {
-                    var actionKey = actionInfo.actionKey;
-                    if (actionKey === 'root') {
-                        var root = _.get(obj, path, null);
-                        self.run(root, actionInfo.children);
-                    } else {
-                        var action = actionKey && self[actionKey];
-                        if (action) {
-                            action(obj, path, actionInfo);
-                        }
-                    }
-                }
+                var actionKey = actionInfo.actionKey;
+                var action = self[actionKey];
+                action.call(self, obj, actionInfo);
             });
         }
     };
