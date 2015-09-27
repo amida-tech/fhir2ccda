@@ -70,8 +70,13 @@ exports.transform = (function () {
             }
         },
         root: function (obj, actionInfo) {
-            var root = _.get(obj, actionInfo.path, null);
-            this.run(root, actionInfo.children);
+            var f = jp(actionInfo.path, {
+                wrap: true
+            });
+            var roots = f(obj);
+            roots.forEach(function (root) {
+                this.run(root, actionInfo.children);
+            }, this);
         },
         run: function (obj, actionInfos) {
             var self = this;

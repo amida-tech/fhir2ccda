@@ -104,7 +104,7 @@ var actionInfos = [{
     path: 'ClinicalDocument.recordTarget.patientRole.patient.languageCommunication',
     actionKey: 'arrayize'
 }, {
-    path: 'ClinicalDocument.component.structuredBody.component[0].section',
+    path: 'ClinicalDocument.component.structuredBody.component[*].section.templateId[?(@["$"].root==="2.16.840.1.113883.10.20.22.2.6.1")].^.^',
     actionKey: 'root',
     children: [{
         path: 'title',
@@ -119,7 +119,7 @@ var actionInfos = [{
 }];
 
 var actionInfosGenerated = [{
-    path: 'ClinicalDocument.component.structuredBody.component[0].section',
+    path: 'ClinicalDocument.component.structuredBody.component[*].section.templateId[?(@["$"].root==="2.16.840.1.113883.10.20.22.2.6.1")].^.^',
     actionKey: 'root',
     children: [{
         path: 'code["$"].displayName',
