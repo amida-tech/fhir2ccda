@@ -89,15 +89,6 @@ var actionInfos = [{
     filterPath: 'section.templateId[*]["$"].root',
     values: ['2.16.840.1.113883.10.20.22.2.6.1']
 }, {
-    path: 'ClinicalDocument.component.structuredBody.component[0].section.title',
-    actionKey: 'delete'
-}, {
-    path: 'ClinicalDocument.component.structuredBody.component[0].section.text',
-    actionKey: 'delete'
-}, {
-    path: 'ClinicalDocument.component.structuredBody.component[0].section.entry',
-    actionKey: 'delete'
-}, {
     path: 'ClinicalDocument.recordTarget.patientRole.addr',
     actionKey: 'arrayize'
 }, {
@@ -112,17 +103,34 @@ var actionInfos = [{
 }, {
     path: 'ClinicalDocument.recordTarget.patientRole.patient.languageCommunication',
     actionKey: 'arrayize'
+}, {
+    path: 'ClinicalDocument.component.structuredBody.component[0].section',
+    actionKey: 'root',
+    children: [{
+        path: 'title',
+        actionKey: 'delete'
+    }, {
+        path: 'text',
+        actionKey: 'delete'
+    }, {
+        path: 'entry',
+        actionKey: 'delete'
+    }]
 }];
 
 var actionInfosGenerated = [{
-    path: 'ClinicalDocument.component.structuredBody.component[0].section.code["$"].displayName',
-    actionKey: 'delete'
-}, {
-    path: 'ClinicalDocument.component.structuredBody.component[0].section.code["$"].codeSystemName',
-    actionKey: 'delete'
-}, {
-    path: 'ClinicalDocument.component.structuredBody.component[0].section.title',
-    actionKey: 'delete'
+    path: 'ClinicalDocument.component.structuredBody.component[0].section',
+    actionKey: 'root',
+    children: [{
+        path: 'code["$"].displayName',
+        actionKey: 'delete'
+    }, {
+        path: 'code["$"].codeSystemName',
+        actionKey: 'delete'
+    }, {
+        path: 'title',
+        actionKey: 'delete'
+    }]
 }];
 
 describe('xml vs parse-generate xml ', function () {

@@ -64,50 +64,53 @@ exports.transform = (function () {
     };
 
     var actionMap = {
-        arrayize: {
-            modify: function (obj, path) {
-                applyToParentProperty(obj, path, fArrayize);
-            }
+        arrayize: function (obj, path) {
+            applyToParentProperty(obj, path, fArrayize);
         },
-        delete: {
-            modify: function (obj, path) {
-                applyToParentProperty(obj, path, fDelete);
-            }
+        delete: function (obj, path) {
+            applyToParentProperty(obj, path, fDelete);
         },
-        filter: {
-            modify: function (obj, path, actionInfo) {
-                var components = _.get(obj, path, null);
-                if (components && Array.isArray(components)) {
-                    var f = jp(actionInfo.filterPath, {
-                        wrap: true
-                    });
-                    var newComponents = components.reduce(function (r, component) {
-                        var componentValues = f(component);
-                        for (var i = 0; i < componentValues.length; ++i) {
-                            var componentValue = componentValues[i];
-                            if (actionInfo.values.indexOf(componentValue) >= 0) {
-                                r.push(component);
-                                break;
-                            }
+        filter: function (obj, path, actionInfo) {
+            var components = _.get(obj, path, null);
+            if (components && Array.isArray(components)) {
+                var f = jp(actionInfo.filterPath, {
+                    wrap: true
+                });
+                var newComponents = components.reduce(function (r, component) {
+                    var componentValues = f(component);
+                    for (var i = 0; i < componentValues.length; ++i) {
+                        var componentValue = componentValues[i];
+                        if (actionInfo.values.indexOf(componentValue) >= 0) {
+                            r.push(component);
+                            break;
                         }
-                        return r;
-                    }, []);
-                    _.set(obj, path, newComponents);
-                }
+                    }
+                    return r;
+                }, []);
+                _.set(obj, path, newComponents);
             }
+        },
+        run: function (obj, actionInfos) {
+            var self = this;
+            actionInfos.forEach(function (actionInfo) {
+                var path = actionInfo.path;
+                if (path) {
+                    var actionKey = actionInfo.actionKey;
+                    if (actionKey === 'root') {
+                        var root = _.get(obj, path, null);
+                        self.run(root, actionInfo.children);
+                    } else {
+                        var action = actionKey && self[actionKey];
+                        if (action) {
+                            action(obj, path, actionInfo);
+                        }
+                    }
+                }
+            });
         }
     };
 
     return function (obj, actionInfos) {
-        actionInfos.forEach(function (actionInfo) {
-            var path = actionInfo.path;
-            if (path) {
-                var actionKey = actionInfo.actionKey;
-                var action = actionKey && actionMap[actionKey];
-                if (action) {
-                    action.modify(obj, path, actionInfo);
-                }
-            }
-        });
+        actionMap.run(obj, actionInfos);
     };
 })();
