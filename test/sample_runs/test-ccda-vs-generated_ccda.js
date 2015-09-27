@@ -14,6 +14,117 @@ var jsonUtil = require('../util/json-transform');
 
 var expect = chai.expect;
 
+var actionInfos = [{
+    path: 'ClinicalDocument.component.structuredBody.component',
+    actionKey: 'arrayize'
+}, {
+    path: 'ClinicalDocument.component.structuredBody.component[*]..templateId',
+    actionKey: 'arrayize'
+}, {
+    path: 'ClinicalDocument.id',
+    actionKey: 'delete'
+}, {
+    path: 'ClinicalDocument.effectiveTime',
+    actionKey: 'delete'
+}, {
+    path: 'ClinicalDocument.confidentialityCode',
+    actionKey: 'delete'
+}, {
+    path: 'ClinicalDocument.setId',
+    actionKey: 'delete'
+}, {
+    path: 'ClinicalDocument.recordTarget.patientRole.patient.name["$"]',
+    actionKey: 'delete'
+}, {
+    path: 'ClinicalDocument.recordTarget.patientRole.patient.maritalStatusCode["$"].codeSystemName',
+    actionKey: 'delete'
+}, {
+    path: 'ClinicalDocument.recordTarget.patientRole.patient.religiousAffiliationCode["$"].codeSystemName',
+    actionKey: 'delete'
+}, {
+    path: 'ClinicalDocument.recordTarget.patientRole.patient.raceCode["$"].codeSystemName',
+    actionKey: 'delete'
+}, {
+    path: 'ClinicalDocument.recordTarget.patientRole.patient.ethnicGroupCode["$"].codeSystemName',
+    actionKey: 'delete'
+}, {
+    path: 'ClinicalDocument.recordTarget.patientRole.patient.guardian',
+    actionKey: 'delete'
+}, {
+    path: 'ClinicalDocument.recordTarget.patientRole.patient.languageCommunication.modeCode',
+    actionKey: 'delete'
+}, {
+    path: 'ClinicalDocument.recordTarget.patientRole.patient.languageCommunication.proficiencyLevelCode',
+    actionKey: 'delete'
+}, {
+    path: 'ClinicalDocument.recordTarget.patientRole.providerOrganization',
+    actionKey: 'delete'
+}, {
+    path: 'ClinicalDocument.author',
+    actionKey: 'delete'
+}, {
+    path: 'ClinicalDocument.dataEnterer',
+    actionKey: 'delete'
+}, {
+    path: 'ClinicalDocument.informant',
+    actionKey: 'delete'
+}, {
+    path: 'ClinicalDocument.custodian',
+    actionKey: 'delete'
+}, {
+    path: 'ClinicalDocument.informationRecipient',
+    actionKey: 'delete'
+}, {
+    path: 'ClinicalDocument.legalAuthenticator',
+    actionKey: 'delete'
+}, {
+    path: 'ClinicalDocument.authenticator',
+    actionKey: 'delete'
+}, {
+    path: 'ClinicalDocument.documentationOf',
+    actionKey: 'delete'
+}, {
+    path: 'ClinicalDocument.component.structuredBody.component',
+    actionKey: 'filter',
+    filterPath: 'section.templateId[*]["$"].root',
+    values: ['2.16.840.1.113883.10.20.22.2.6.1']
+}, {
+    path: 'ClinicalDocument.component.structuredBody.component[0].section.title',
+    actionKey: 'delete'
+}, {
+    path: 'ClinicalDocument.component.structuredBody.component[0].section.text',
+    actionKey: 'delete'
+}, {
+    path: 'ClinicalDocument.component.structuredBody.component[0].section.entry',
+    actionKey: 'delete'
+}, {
+    path: 'ClinicalDocument.recordTarget.patientRole.addr',
+    actionKey: 'arrayize'
+}, {
+    path: 'ClinicalDocument.recordTarget.patientRole.telecom',
+    actionKey: 'arrayize'
+}, {
+    path: 'ClinicalDocument.recordTarget.patientRole.addr[0].streetAddressLine',
+    actionKey: 'arrayize'
+}, {
+    path: 'ClinicalDocument.recordTarget.patientRole.patient.name.family',
+    actionKey: 'arrayize'
+}, {
+    path: 'ClinicalDocument.recordTarget.patientRole.patient.languageCommunication',
+    actionKey: 'arrayize'
+}];
+
+var actionInfosGenerated = [{
+    path: 'ClinicalDocument.component.structuredBody.component[0].section.code["$"].displayName',
+    actionKey: 'delete'
+}, {
+    path: 'ClinicalDocument.component.structuredBody.component[0].section.code["$"].codeSystemName',
+    actionKey: 'delete'
+}, {
+    path: 'ClinicalDocument.component.structuredBody.component[0].section.title',
+    actionKey: 'delete'
+}];
+
 describe('xml vs parse-generate xml ', function () {
     var generatedDir = null;
     var sampleDir = null;
@@ -51,6 +162,7 @@ describe('xml vs parse-generate xml ', function () {
             var ccdaJSONOriginalJS = JSON.stringify(ccdaJSONOriginal, undefined, 4);
             var filepath = path.join(generatedDir, 'CCD_1_original.json');
             fs.writeFileSync(filepath, ccdaJSONOriginalJS);
+            jsonUtil.transform(ccdaJSONOriginal, actionInfos);
             done(err);
         });
     });
@@ -83,15 +195,6 @@ describe('xml vs parse-generate xml ', function () {
 
     var ccdaJSONGenerated = null;
 
-    var ccdaArrayize = [
-        'ClinicalDocument.recordTarget.patientRole.addr',
-        'ClinicalDocument.recordTarget.patientRole.telecom',
-        'ClinicalDocument.recordTarget.patientRole.addr[0].streetAddressLine',
-        'ClinicalDocument.recordTarget.patientRole.patient.name.family',
-        'ClinicalDocument.recordTarget.patientRole.patient.languageCommunication',
-        'ClinicalDocument.component.structuredBody.component'
-    ];
-
     it('fhir to ccda-json', function () {
         ccdaJSONGenerated = fhir2ccda.generateCCD(fhir, {
             json: true
@@ -99,60 +202,13 @@ describe('xml vs parse-generate xml ', function () {
         var filepath = path.join(generatedDir, 'CCD_1_generated.json');
         var ccdaJSONGeneratedOut = JSON.stringify(ccdaJSONGenerated, undefined, 4);
         fs.writeFileSync(filepath, ccdaJSONGeneratedOut);
-        jsonUtil.delete(ccdaJSONOriginal, [
-            'ClinicalDocument.id',
-            'ClinicalDocument.effectiveTime',
-            'ClinicalDocument.confidentialityCode',
-            'ClinicalDocument.setId',
-            'ClinicalDocument.recordTarget.patientRole.patient.name.$',
-            'ClinicalDocument.recordTarget.patientRole.patient.maritalStatusCode.$.codeSystemName',
-            'ClinicalDocument.recordTarget.patientRole.patient.religiousAffiliationCode.$.codeSystemName',
-            'ClinicalDocument.recordTarget.patientRole.patient.raceCode.$.codeSystemName',
-            'ClinicalDocument.recordTarget.patientRole.patient.ethnicGroupCode.$.codeSystemName',
-            'ClinicalDocument.recordTarget.patientRole.patient.guardian',
-            'ClinicalDocument.recordTarget.patientRole.patient.languageCommunication.modeCode',
-            'ClinicalDocument.recordTarget.patientRole.patient.languageCommunication.proficiencyLevelCode',
-            'ClinicalDocument.recordTarget.patientRole.providerOrganization',
-            'ClinicalDocument.author',
-            'ClinicalDocument.dataEnterer',
-            'ClinicalDocument.informant',
-            'ClinicalDocument.custodian',
-            'ClinicalDocument.informationRecipient',
-            'ClinicalDocument.legalAuthenticator',
-            'ClinicalDocument.authenticator',
-            'ClinicalDocument.documentationOf'
-        ]);
-        jsonUtil.deleteTemplates(ccdaJSONOriginal, 'ClinicalDocument.component.structuredBody.component', 'section.templateId[*]["$"].root', [
-            '2.16.840.1.113883.10.20.22.2.2',
-            '2.16.840.1.113883.10.20.22.2.1',
-            '2.16.840.1.113883.10.20.22.2.22',
-            '2.16.840.1.113883.10.20.22.2.21',
-            '2.16.840.1.113883.10.20.22.2.5',
-            '2.16.840.1.113883.10.20.22.2.7',
-            '2.16.840.1.113883.10.20.22.2.14',
-            '2.16.840.1.113883.10.20.22.2.23',
-            '2.16.840.1.113883.10.20.22.2.3',
-            '2.16.840.1.113883.10.20.22.2.17',
-            '2.16.840.1.113883.10.20.22.2.4'
-        ]);
-        jsonUtil.delete(ccdaJSONOriginal, [
-            'ClinicalDocument.component.structuredBody.component[0].section.title',
-            'ClinicalDocument.component.structuredBody.component[0].section.text',
-            'ClinicalDocument.component.structuredBody.component[0].section.entry'
-        ]);
 
-        jsonUtil.arrayize(ccdaJSONOriginal, ccdaArrayize);
         var filepathOriginal = path.join(generatedDir, 'CCD_1_original_modified.json');
         var ccdaJSONOriginalJS = JSON.stringify(ccdaJSONOriginal, undefined, 4);
         fs.writeFileSync(filepathOriginal, ccdaJSONOriginalJS);
 
         var ccdaJSONGeneratedMod = _.cloneDeep(ccdaJSONGenerated);
-        jsonUtil.delete(ccdaJSONGeneratedMod, [
-            'ClinicalDocument.component.structuredBody.component[0].section.code.$.displayName',
-            'ClinicalDocument.component.structuredBody.component[0].section.code.$.codeSystemName',
-            'ClinicalDocument.component.structuredBody.component[0].section.title',
-        ]);
-
+        jsonUtil.transform(ccdaJSONGeneratedMod, actionInfosGenerated);
         expect(ccdaJSONGeneratedMod).to.deep.equal(ccdaJSONOriginal);
     });
 
@@ -168,7 +224,10 @@ describe('xml vs parse-generate xml ', function () {
             if (err) {
                 done(err);
             } else {
-                jsonUtil.arrayize(result, ccdaArrayize);
+                var actionInfosArrayize = _.filter(actionInfos, function (actionInfo) {
+                    return actionInfo.actionKey === 'arrayize';
+                });
+                jsonUtil.transform(result, actionInfosArrayize);
                 expect(result).to.deep.equal(ccdaJSONGenerated);
                 done();
             }
