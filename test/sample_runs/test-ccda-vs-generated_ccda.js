@@ -113,7 +113,13 @@ var actionInfos = [{
         path: 'text',
         actionKey: 'delete'
     }, {
-        path: 'entry',
+        path: 'entry[*].act.effectiveTime',
+        actionKey: 'delete'
+    }, {
+        path: 'entry[*].act.id',
+        actionKey: 'delete'
+    }, {
+        path: 'entry[*].act.entryRelationship',
         actionKey: 'delete'
     }]
 }];
