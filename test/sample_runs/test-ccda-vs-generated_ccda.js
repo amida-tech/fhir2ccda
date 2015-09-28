@@ -90,10 +90,12 @@ var actionInfos = [{
     path: 'ClinicalDocument.documentationOf',
     actionKey: 'delete'
 }, {
-    path: 'ClinicalDocument.component.structuredBody.component',
+    path: 'ClinicalDocument.component.structuredBody.component[*]',
     actionKey: 'filter',
     filterPath: 'section.templateId[*]["$"].root',
-    values: ['2.16.840.1.113883.10.20.22.2.6.1']
+    values: ['2.16.840.1.113883.10.20.22.2.6.1'],
+    parentPath: 'ClinicalDocument.component.structuredBody',
+    property: 'component'
 }, {
     path: 'ClinicalDocument.recordTarget.patientRole.addr',
     actionKey: 'arrayize'
@@ -134,8 +136,12 @@ var actionInfos = [{
         path: 'entry[*].act.entryRelationship[*].observation.value',
         actionKey: 'delete'
     }, {
-        path: 'entry[*].act.entryRelationship[*].observation.entryRelationship',
-        actionKey: 'delete'
+        path: 'entry[*].act.entryRelationship[*].observation.entryRelationship[*]',
+        actionKey: 'filter2',
+        filterPath: 'observation.templateId[*]["$"].root',
+        values: ['2.16.840.1.113883.10.20.22.4.28'],
+        parentPath: 'entry[*].act.entryRelationship[*].observation',
+        property: 'entryRelationship'
     }]
 }];
 

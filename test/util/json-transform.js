@@ -50,7 +50,10 @@ exports.transform = (function () {
             });
         },
         filter: function (obj, actionInfo) {
-            var components = _.get(obj, actionInfo.path, null);
+            var g = jp(actionInfo.path, {
+                wrap: true
+            });
+            var components = g(obj);
             if (components && Array.isArray(components)) {
                 var f = jp(actionInfo.filterPath, {
                     wrap: true
@@ -66,8 +69,48 @@ exports.transform = (function () {
                     }
                     return r;
                 }, []);
-                _.set(obj, actionInfo.path, newComponents);
+                var h = jp(actionInfo.parentPath, {
+                    wrap: false
+                });
+                var parent = h(obj);
+                parent[actionInfo.property] = newComponents;
             }
+        },
+        filter2: function (obj, actionInfo) {
+            var g = jp(actionInfo.parentPath, {
+                wrap: true
+            });
+            var components = g(obj);
+            if (components && Array.isArray(components)) {
+                components.forEach(function (component) {
+                    var f = jp(actionInfo.filterPath, {
+                        wrap: true
+                    });
+                    var newProperty = component[actionInfo.property].reduce(function (r, component) {
+                        var componentValues = f(component);
+                        for (var i = 0; i < componentValues.length; ++i) {
+                            var componentValue = componentValues[i];
+                            if (actionInfo.values.indexOf(componentValue) >= 0) {
+                                r.push(component);
+                                break;
+                            }
+                        }
+                        return r;
+                    }, []);
+                    if (newProperty.length === 0) {
+                        delete component[actionInfo.property];
+                    } else {
+                        component[actionInfo.property] = newProperty;
+                    }
+                });
+            }
+        },
+        assign: function (obj, actionInfo) {
+            var g = jp(actionInfo.path, {
+                wrap: true
+            });
+            var components = g(obj);
+            console.log(components);
         },
         root: function (obj, actionInfo) {
             var f = jp(actionInfo.path, {
