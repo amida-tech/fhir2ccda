@@ -21,6 +21,12 @@ var actionInfos = [{
     path: 'ClinicalDocument.component.structuredBody.component[*]..templateId',
     actionKey: 'arrayize'
 }, {
+    path: 'ClinicalDocument.component.structuredBody.component[*]..entryRelationship',
+    actionKey: 'arrayize'
+}, {
+    path: 'ClinicalDocument.component.structuredBody.component[*]..originalText',
+    actionKey: 'delete'
+}, {
     path: 'ClinicalDocument.id',
     actionKey: 'delete'
 }, {
@@ -119,12 +125,24 @@ var actionInfos = [{
         path: 'entry[*].act.id',
         actionKey: 'delete'
     }, {
-        path: 'entry[*].act.entryRelationship',
+        path: 'entry[*].act.entryRelationship[*].observation.id',
+        actionKey: 'delete'
+    }, {
+        path: 'entry[*].act.entryRelationship[*].observation.effectiveTime',
+        actionKey: 'delete'
+    }, {
+        path: 'entry[*].act.entryRelationship[*].observation.value',
+        actionKey: 'delete'
+    }, {
+        path: 'entry[*].act.entryRelationship[*].observation.entryRelationship',
         actionKey: 'delete'
     }]
 }];
 
 var actionInfosGenerated = [{
+    path: 'ClinicalDocument.component.structuredBody.component[*]..entryRelationship',
+    actionKey: 'arrayize'
+}, {
     path: 'ClinicalDocument.component.structuredBody.component[*].section.templateId[?(@["$"].root==="2.16.840.1.113883.10.20.22.2.6.1")].^.^',
     actionKey: 'root',
     children: [{
@@ -242,6 +260,7 @@ describe('xml vs parse-generate xml ', function () {
                     return actionInfo.actionKey === 'arrayize';
                 });
                 jsonUtil.transform(result, actionInfosArrayize);
+                jsonUtil.transform(ccdaJSONGenerated, actionInfosArrayize);
                 expect(result).to.deep.equal(ccdaJSONGenerated);
                 done();
             }
