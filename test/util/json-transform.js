@@ -121,6 +121,16 @@ exports.transform = (function () {
                 this.run(root, actionInfo.children);
             }, this);
         },
+        root2: function (obj, actionInfo) {
+            var f = jp(actionInfo.path, {
+                wrap: true
+            });
+            var roots = f(obj);
+            console.log(roots);
+            //roots.forEach(function (root) {
+            //    this.run(root, actionInfo.children);
+            //}, this);
+        },
         run: function (obj, actionInfos) {
             var self = this;
             actionInfos.forEach(function (actionInfo) {

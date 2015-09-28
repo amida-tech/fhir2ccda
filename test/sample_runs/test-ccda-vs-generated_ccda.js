@@ -139,9 +139,22 @@ var actionInfos = [{
         path: 'entry[*].act.entryRelationship[*].observation.entryRelationship[*]',
         actionKey: 'filter2',
         filterPath: 'observation.templateId[*]["$"].root',
-        values: ['2.16.840.1.113883.10.20.22.4.28'],
+        values: ['2.16.840.1.113883.10.20.22.4.28'], //'2.16.840.1.113883.10.20.22.4.9'],
         parentPath: 'entry[*].act.entryRelationship[*].observation',
         property: 'entryRelationship'
+    }, {
+        path: 'entry[*].act.entryRelationship[*].observation.entryRelationship[*].observation.templateId[*]["$"][?(@==="2.16.840.1.113883.10.20.22.4.9")].^.^.^.^',
+        actionKey: 'root',
+        children: [{
+            path: 'id',
+            actionKey: 'delete'
+        }, {
+            path: 'text',
+            actionKey: 'delete'
+        }, {
+            path: 'entryRelationship',
+            actionKey: 'delete'
+        }]
     }]
 }];
 
