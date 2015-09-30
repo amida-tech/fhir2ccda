@@ -44,13 +44,13 @@ exports.transform = (function () {
                 }
             });
         },
+        //delete: function (obj, actionInfo) {
+        //    applyToParentProperty(obj, actionInfo.path, function (element, property) {
+        //        delete element[property];
+        //    });
+        //},
         delete: function (obj, actionInfo) {
-            applyToParentProperty(obj, actionInfo.path, function (element, property) {
-                delete element[property];
-            });
-        },
-        delete2: function (obj, actionInfo) {
-            var f = jp(actionInfo.parentPath, {
+            var f = jp(actionInfo.path, {
                 wrap: true,
                 resultType: 'patharray'
             });
@@ -58,10 +58,13 @@ exports.transform = (function () {
             paths.reverse();
             paths.forEach(function (path) {
                 var n = path.length;
-                if (n > 1) {
-                    var parentPath = path.slice(0, n - 1);
+                if (n > 0) {
+                    var parent = obj;
+                    if (n > 1) {
+                        var parentPath = path.slice(0, n - 1);
+                        parent = _.get(obj, parentPath, null);
+                    }
                     var property = path[n - 1];
-                    var parent = _.get(obj, parentPath, null);
                     if (parent !== null) {
                         if (typeof property === "string") {
                             delete parent[property];

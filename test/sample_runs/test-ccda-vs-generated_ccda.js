@@ -175,32 +175,32 @@ var actionInfos = [{
         path: 'entry[*].act.effectiveTime',
         actionKey: 'delete'
     }, {
-        parentPath: 'entry[*].act.entryRelationship[*].observation.value[?(@.code==="195967001")].^.^.^.^.^.^',
-        actionKey: 'delete2',
+        path: 'entry[*].act.entryRelationship[*].observation.value[?(@.code==="195967001")].^.^.^.^.^.^',
+        actionKey: 'delete',
     }, {
-        parentPath: 'entry[*].act.entryRelationship[*].observation.text',
-        actionKey: 'delete2',
+        path: 'entry[*].act.entryRelationship[*].observation.text',
+        actionKey: 'delete',
     }, {
-        parentPath: 'entry[*].act.entryRelationship[*].observation.effectiveTime',
-        actionKey: 'delete2',
+        path: 'entry[*].act.entryRelationship[*].observation.effectiveTime',
+        actionKey: 'delete',
     }, {
-        parentPath: 'entry[*].act.entryRelationship[*].observation.id',
-        actionKey: 'delete2',
+        path: 'entry[*].act.entryRelationship[*].observation.id',
+        actionKey: 'delete',
     }, {
-        parentPath: 'entry[*].act.entryRelationship[*].observation.entryRelationship[?(@.observation.code["$"].displayName!=="Status")]',
-        actionKey: 'delete2',
+        path: 'entry[*].act.entryRelationship[*].observation.entryRelationship[?(@.observation.code["$"].displayName!=="Status")]',
+        actionKey: 'delete',
     }, {
-        parentPath: 'entry[*].act.entryRelationship[*].observation.entryRelationship[*].observation.effectiveTime',
-        actionKey: 'delete2',
+        path: 'entry[*].act.entryRelationship[*].observation.entryRelationship[*].observation.effectiveTime',
+        actionKey: 'delete',
     }, {
-        parentPath: 'entry[*].act.entryRelationship[*].observation.entryRelationship[*].observation.id',
-        actionKey: 'delete2',
+        path: 'entry[*].act.entryRelationship[*].observation.entryRelationship[*].observation.id',
+        actionKey: 'delete',
     }, {
-        parentPath: 'entry[*].act.entryRelationship[*].observation.entryRelationship[*].observation.text',
-        actionKey: 'delete2',
+        path: 'entry[*].act.entryRelationship[*].observation.entryRelationship[*].observation.text',
+        actionKey: 'delete',
     }, {
-        parentPath: 'entry[*].act.entryRelationship[*].observation.code',
-        actionKey: 'delete2',
+        path: 'entry[*].act.entryRelationship[*].observation.code',
+        actionKey: 'delete',
     }]
 }];
 
@@ -236,17 +236,17 @@ var actionInfosGenerated = [{
         path: 'title',
         actionKey: 'delete'
     }, {
-        parentPath: 'entry[*].act.entryRelationship[*].observation.value[?(@.code==="CONC")].^.^.^.^.^.^',
-        actionKey: 'delete2',
+        path: 'entry[*].act.entryRelationship[*].observation.value[?(@.code==="CONC")].^.^.^.^.^.^',
+        actionKey: 'delete',
     }, {
-        parentPath: 'entry[*].act.entryRelationship[*].observation.value["$"].codeSystemName',
-        actionKey: 'delete2',
+        path: 'entry[*].act.entryRelationship[*].observation.value["$"].codeSystemName',
+        actionKey: 'delete',
     }, {
-        parentPath: 'entry[*].act.entryRelationship[*].observation.entryRelationship[*].observation.code["$"].codeSystemName',
-        actionKey: 'delete2',
+        path: 'entry[*].act.entryRelationship[*].observation.entryRelationship[*].observation.code["$"].codeSystemName',
+        actionKey: 'delete',
     }, {
-        parentPath: 'entry[*].act.entryRelationship[*].observation.code',
-        actionKey: 'delete2',
+        path: 'entry[*].act.entryRelationship[*].observation.code',
+        actionKey: 'delete',
     }]
 }];
 
