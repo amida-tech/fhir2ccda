@@ -90,12 +90,8 @@ var actionInfos = [{
     path: 'ClinicalDocument.documentationOf',
     actionKey: 'delete'
 }, {
-    path: 'ClinicalDocument.component.structuredBody.component[*]',
-    actionKey: 'filter',
-    filterPath: 'section.templateId[*]["$"].root',
-    values: ['2.16.840.1.113883.10.20.22.2.6.1', '2.16.840.1.113883.10.20.22.2.5'],
-    parentPath: 'ClinicalDocument.component.structuredBody',
-    property: 'component'
+    path: 'ClinicalDocument.component.structuredBody.component[*].section.templateId[?(["2.16.840.1.113883.10.20.22.2.6", "2.16.840.1.113883.10.20.22.2.6.1", "2.16.840.1.113883.10.20.22.2.5", "2.16.840.1.113883.10.20.22.2.5.1"].indexOf(@["$"].root)<0)].^.^.^',
+    actionKey: 'delete'
 }, {
     path: 'ClinicalDocument.recordTarget.patientRole.addr',
     actionKey: 'arrayize'
@@ -136,12 +132,8 @@ var actionInfos = [{
         path: 'entry[*].act.entryRelationship[*].observation.value',
         actionKey: 'delete'
     }, {
-        path: 'entry[*].act.entryRelationship[*].observation.entryRelationship[*]',
-        actionKey: 'filter2',
-        filterPath: 'observation.templateId[*]["$"].root',
-        values: ['2.16.840.1.113883.10.20.22.4.28'], //'2.16.840.1.113883.10.20.22.4.9'],
-        parentPath: 'entry[*].act.entryRelationship[*].observation',
-        property: 'entryRelationship'
+        path: 'entry[*].act.entryRelationship[*].observation.entryRelationship[*].observation.templateId[?(@["$"].root!=="2.16.840.1.113883.10.20.22.4.28")].^.^.^',
+        actionKey: 'delete'
     }, {
         path: 'entry[*].act.entryRelationship[*].observation.entryRelationship[*].observation.templateId[*]["$"][?(@==="2.16.840.1.113883.10.20.22.4.9")].^.^.^.^',
         actionKey: 'root',

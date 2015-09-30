@@ -5,6 +5,31 @@ var jsonave = require('jsonave');
 
 var jp = jsonave.instance;
 
+var uniqifyPaths = function (paths) {
+    var asString = paths.map(function (path) {
+        var pathAsString = path.map(function (e) {
+            if (typeof e === "string") {
+                return 's' + e;
+            } else {
+                return 'i' + e;
+            }
+        });
+        return pathAsString.join('\n');
+    });
+    var deduplicated = _.uniq(asString);
+    return deduplicated.map(function (path) {
+        var raw = path.split('\n');
+        return raw.map(function (e) {
+            if (e.charAt(0) === 's') {
+                return e.substring(1);
+            } else {
+                var intValue = e.substring(1);
+                return parseInt(intValue, 10);
+            }
+        });
+    });
+};
+
 exports.transform = (function () {
     var actionMap = {
         applyParentProperty: function (obj, actionInfo, fn) {
@@ -14,6 +39,7 @@ exports.transform = (function () {
             });
             var paths = f(obj);
             paths.reverse();
+            paths = uniqifyPaths(paths);
             paths.forEach(function (path) {
                 var n = path.length;
                 if (n > 0) {
@@ -46,69 +72,6 @@ exports.transform = (function () {
                 }
             });
         },
-        filter: function (obj, actionInfo) {
-            var g = jp(actionInfo.path, {
-                wrap: true
-            });
-            var components = g(obj);
-            if (components && Array.isArray(components)) {
-                var f = jp(actionInfo.filterPath, {
-                    wrap: true
-                });
-                var newComponents = components.reduce(function (r, component) {
-                    var componentValues = f(component);
-                    for (var i = 0; i < componentValues.length; ++i) {
-                        var componentValue = componentValues[i];
-                        if (actionInfo.values.indexOf(componentValue) >= 0) {
-                            r.push(component);
-                            break;
-                        }
-                    }
-                    return r;
-                }, []);
-                var h = jp(actionInfo.parentPath, {
-                    wrap: false
-                });
-                var parent = h(obj);
-                parent[actionInfo.property] = newComponents;
-            }
-        },
-        filter2: function (obj, actionInfo) {
-            var g = jp(actionInfo.parentPath, {
-                wrap: true
-            });
-            var components = g(obj);
-            if (components && Array.isArray(components)) {
-                components.forEach(function (component) {
-                    var f = jp(actionInfo.filterPath, {
-                        wrap: true
-                    });
-                    var newProperty = component[actionInfo.property].reduce(function (r, component) {
-                        var componentValues = f(component);
-                        for (var i = 0; i < componentValues.length; ++i) {
-                            var componentValue = componentValues[i];
-                            if (actionInfo.values.indexOf(componentValue) >= 0) {
-                                r.push(component);
-                                break;
-                            }
-                        }
-                        return r;
-                    }, []);
-                    if (newProperty.length === 0) {
-                        delete component[actionInfo.property];
-                    } else {
-                        component[actionInfo.property] = newProperty;
-                    }
-                });
-            }
-        },
-        assign: function (obj, actionInfo) {
-            var g = jp(actionInfo.path, {
-                wrap: true
-            });
-            var components = g(obj);
-            console.log(components);
-        },
         root: function (obj, actionInfo) {
             var f = jp(actionInfo.path, {
                 wrap: true
@@ -117,16 +80,6 @@ exports.transform = (function () {
             roots.forEach(function (root) {
                 this.run(root, actionInfo.children);
             }, this);
-        },
-        root2: function (obj, actionInfo) {
-            var f = jp(actionInfo.path, {
-                wrap: true
-            });
-            var roots = f(obj);
-            console.log(roots);
-            //roots.forEach(function (root) {
-            //    this.run(root, actionInfo.children);
-            //}, this);
         },
         run: function (obj, actionInfos) {
             var self = this;
