@@ -6,50 +6,8 @@ var jsonave = require('jsonave');
 var jp = jsonave.instance;
 
 exports.transform = (function () {
-    var getLastPiece = function (path, delimiter) {
-        var pieces = path.split(delimiter);
-        var n = pieces.length;
-        return pieces[n - 1];
-    };
-
-    var findLastProperty = function (path) {
-        var pathLength = path.length;
-        if (path.charAt(pathLength - 1) === ']') {
-            var r = getLastPiece(path, '[');
-            var n = r.length;
-            return r.substring(1, n - 2);
-        } else {
-            return getLastPiece(path, '.');
-        }
-    };
-
-    var applyToParentProperty = function (obj, path, action) {
-        var property = findLastProperty(path);
-        path = path + '.^';
-        var f = jp(path, {
-            wrap: true
-        });
-        var elements = f(obj);
-        elements.forEach(function (element) {
-            action(element, property);
-        });
-    };
-
     var actionMap = {
-        arrayize: function (obj, actionInfo) {
-            applyToParentProperty(obj, actionInfo.path, function (element, property) {
-                var leaf = element[property];
-                if ((leaf !== undefined) && (leaf !== null) && !Array.isArray(leaf)) {
-                    element[property] = [leaf];
-                }
-            });
-        },
-        //delete: function (obj, actionInfo) {
-        //    applyToParentProperty(obj, actionInfo.path, function (element, property) {
-        //        delete element[property];
-        //    });
-        //},
-        delete: function (obj, actionInfo) {
+        applyParentProperty: function (obj, actionInfo, fn) {
             var f = jp(actionInfo.path, {
                 wrap: true,
                 resultType: 'patharray'
@@ -66,12 +24,25 @@ exports.transform = (function () {
                     }
                     var property = path[n - 1];
                     if (parent !== null) {
-                        if (typeof property === "string") {
-                            delete parent[property];
-                        } else {
-                            parent.splice(property, 1);
-                        }
+                        fn(parent, property);
                     }
+                }
+            });
+        },
+        arrayize: function (obj, actionInfo) {
+            this.applyParentProperty(obj, actionInfo, function (parent, property) {
+                var value = parent[property];
+                if (value && !Array.isArray(value)) {
+                    parent[property] = [value];
+                }
+            });
+        },
+        delete: function (obj, actionInfo) {
+            this.applyParentProperty(obj, actionInfo, function (parent, property) {
+                if (typeof property === "string") {
+                    delete parent[property];
+                } else {
+                    parent.splice(property, 1);
                 }
             });
         },
