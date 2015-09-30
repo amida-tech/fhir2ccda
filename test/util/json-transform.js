@@ -49,6 +49,29 @@ exports.transform = (function () {
                 delete element[property];
             });
         },
+        delete2: function (obj, actionInfo) {
+            var f = jp(actionInfo.parentPath, {
+                wrap: true,
+                resultType: 'patharray'
+            });
+            var paths = f(obj);
+            paths.reverse();
+            paths.forEach(function (path) {
+                var n = path.length;
+                if (n > 1) {
+                    var parentPath = path.slice(0, n - 1);
+                    var property = path[n - 1];
+                    var parent = _.get(obj, parentPath, null);
+                    if (parent !== null) {
+                        if (typeof property === "string") {
+                            delete parent[property];
+                        } else {
+                            parent.splice(property, 1);
+                        }
+                    }
+                }
+            });
+        },
         filter: function (obj, actionInfo) {
             var g = jp(actionInfo.path, {
                 wrap: true

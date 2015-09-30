@@ -93,7 +93,7 @@ var actionInfos = [{
     path: 'ClinicalDocument.component.structuredBody.component[*]',
     actionKey: 'filter',
     filterPath: 'section.templateId[*]["$"].root',
-    values: ['2.16.840.1.113883.10.20.22.2.6.1'],
+    values: ['2.16.840.1.113883.10.20.22.2.6.1', '2.16.840.1.113883.10.20.22.2.5'],
     parentPath: 'ClinicalDocument.component.structuredBody',
     property: 'component'
 }, {
@@ -156,6 +156,52 @@ var actionInfos = [{
             actionKey: 'delete'
         }]
     }]
+}, {
+    path: 'ClinicalDocument.component.structuredBody.component[*].section.templateId[?(@["$"].root==="2.16.840.1.113883.10.20.22.2.5")].^.^',
+    actionKey: 'root',
+    children: [{
+        path: 'code["$"].displayName',
+        actionKey: 'delete'
+    }, {
+        path: 'title',
+        actionKey: 'delete'
+    }, {
+        path: 'text',
+        actionKey: 'delete'
+    }, {
+        path: 'entry[*].act.id',
+        actionKey: 'delete'
+    }, {
+        path: 'entry[*].act.effectiveTime',
+        actionKey: 'delete'
+    }, {
+        parentPath: 'entry[*].act.entryRelationship[*].observation.value[?(@.code==="195967001")].^.^.^.^.^.^',
+        actionKey: 'delete2',
+    }, {
+        parentPath: 'entry[*].act.entryRelationship[*].observation.text',
+        actionKey: 'delete2',
+    }, {
+        parentPath: 'entry[*].act.entryRelationship[*].observation.effectiveTime',
+        actionKey: 'delete2',
+    }, {
+        parentPath: 'entry[*].act.entryRelationship[*].observation.id',
+        actionKey: 'delete2',
+    }, {
+        parentPath: 'entry[*].act.entryRelationship[*].observation.entryRelationship[?(@.observation.code["$"].displayName!=="Status")]',
+        actionKey: 'delete2',
+    }, {
+        parentPath: 'entry[*].act.entryRelationship[*].observation.entryRelationship[*].observation.effectiveTime',
+        actionKey: 'delete2',
+    }, {
+        parentPath: 'entry[*].act.entryRelationship[*].observation.entryRelationship[*].observation.id',
+        actionKey: 'delete2',
+    }, {
+        parentPath: 'entry[*].act.entryRelationship[*].observation.entryRelationship[*].observation.text',
+        actionKey: 'delete2',
+    }, {
+        parentPath: 'entry[*].act.entryRelationship[*].observation.code',
+        actionKey: 'delete2',
+    }]
 }];
 
 var actionInfosGenerated = [{
@@ -173,6 +219,34 @@ var actionInfosGenerated = [{
     }, {
         path: 'title',
         actionKey: 'delete'
+    }, {
+        path: 'text',
+        actionKey: 'delete'
+    }, {
+        path: 'id',
+        actionKey: 'delete'
+    }]
+}, {
+    path: 'ClinicalDocument.component.structuredBody.component[*].section.templateId[?(@["$"].root==="2.16.840.1.113883.10.20.22.2.5")].^.^',
+    actionKey: 'root',
+    children: [{
+        path: 'code["$"].displayName',
+        actionKey: 'delete'
+    }, {
+        path: 'title',
+        actionKey: 'delete'
+    }, {
+        parentPath: 'entry[*].act.entryRelationship[*].observation.value[?(@.code==="CONC")].^.^.^.^.^.^',
+        actionKey: 'delete2',
+    }, {
+        parentPath: 'entry[*].act.entryRelationship[*].observation.value["$"].codeSystemName',
+        actionKey: 'delete2',
+    }, {
+        parentPath: 'entry[*].act.entryRelationship[*].observation.entryRelationship[*].observation.code["$"].codeSystemName',
+        actionKey: 'delete2',
+    }, {
+        parentPath: 'entry[*].act.entryRelationship[*].observation.code',
+        actionKey: 'delete2',
     }]
 }];
 
@@ -260,6 +334,9 @@ describe('xml vs parse-generate xml ', function () {
 
         var ccdaJSONGeneratedMod = _.cloneDeep(ccdaJSONGenerated);
         jsonUtil.transform(ccdaJSONGeneratedMod, actionInfosGenerated);
+        filepath = path.join(generatedDir, 'CCD_1_generated_post.json');
+        ccdaJSONGeneratedOut = JSON.stringify(ccdaJSONGeneratedMod, undefined, 4);
+        fs.writeFileSync(filepath, ccdaJSONGeneratedOut);
         expect(ccdaJSONGeneratedMod).to.deep.equal(ccdaJSONOriginal);
     });
 
