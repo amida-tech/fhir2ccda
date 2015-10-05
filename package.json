@@ -20,7 +20,7 @@
         "jsonapter": "0.0.1",
         "jsonave": "0.0.3",
         "lodash": "^3.10.1",
-        "xml2js": "^0.4.12"
+        "xmlbuilder": "^3.1.0"
     },
     "devDependencies": {
         "cda-fhir": "https://github.com/amida-tech/cda-fhir",
@@ -31,7 +31,8 @@
         "grunt-jsbeautifier": "^0.2.10",
         "grunt-mocha-test": "^0.12.7",
         "grunt-shell": "^1.1.2",
-        "mocha": "^2.3.3"
+        "mocha": "^2.3.3",
+        "xml2js": "^0.4.12"
     },
     "repository": {
         "type": "git",
