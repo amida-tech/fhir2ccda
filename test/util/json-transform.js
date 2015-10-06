@@ -77,6 +77,11 @@ exports.transform = (function () {
                 }
             });
         },
+        modify: function (obj, actionInfo) {
+            this.applyParentProperty(obj, actionInfo, function (parent, property) {
+                parent[property] = actionInfo.value;
+            });
+        },
         root: function (obj, actionInfo) {
             var f = jp(actionInfo.path, {
                 wrap: true

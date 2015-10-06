@@ -85,7 +85,7 @@ var actionInfos = [{
     path: 'children[?(@.name==="component")]..children[?(@.name==="originalText")]',
     actionKey: 'delete'
 }, {
-    path: 'children[?(@.name==="component")].children[*].children[*].children[*].children[?((@.name==="templateId")&&(["2.16.840.1.113883.10.20.22.2.6", "2.16.840.1.113883.10.20.22.2.6.1", "2.16.840.1.113883.10.20.22.2.5x", "2.16.840.1.113883.10.20.22.2.5.1x"].indexOf(@.attr.root)<0))].^.^.^.^',
+    path: 'children[?(@.name==="component")].children[*].children[*].children[*].children[?((@.name==="templateId")&&(["2.16.840.1.113883.10.20.22.2.6", "2.16.840.1.113883.10.20.22.2.6.1", "2.16.840.1.113883.10.20.22.2.5", "2.16.840.1.113883.10.20.22.2.5.1"].indexOf(@.attr.root)<0))].^.^.^.^',
     actionKey: 'delete'
 }, {
     path: 'children[?(@.name==="component")].children[*].children[*].children[*].children[?((@.name==="templateId")&&(@.attr.root==="2.16.840.1.113883.10.20.22.2.6.1"))].^.^',
@@ -117,65 +117,53 @@ var actionInfos = [{
         }, {
             path: 'children[?(@.name==="entryRelationship")].children[?(@.name==="observation")].children[?(@.name==="entryRelationship")].children[?(@.name==="observation")].children[?((@.name==="templateId")&&(@.attr.root!=="2.16.840.1.113883.10.20.22.4.28"))].^.^.^.^',
             actionKey: 'delete'
-        }, {
-            path: 'entry[*].act.entryRelationship[*].observation.entryRelationship[*].observation.templateId[*]["$"][?(@==="2.16.840.1.113883.10.20.22.4.9")].^.^.^.^',
-            actionKey: 'root',
-            children: [{
-                path: 'id',
-                actionKey: 'delete'
-            }, {
-                path: 'text',
-                actionKey: 'delete'
-            }, {
-                path: 'entryRelationship',
-                actionKey: 'delete'
-            }]
         }]
     }]
 }, {
-    path: 'ClinicalDocument.component.structuredBody.component[*].section.templateId[?(@["$"].root==="2.16.840.1.113883.10.20.22.2.5")].^.^',
+    path: 'children[?(@.name==="component")].children[*].children[*].children[*].children[?((@.name==="templateId")&&(@.attr.root==="2.16.840.1.113883.10.20.22.2.5.1"))].^.^',
     actionKey: 'root',
     children: [{
-        path: 'code["$"].displayName',
+        path: 'children[?(@.name==="code")].attr.displayName',
         actionKey: 'delete'
     }, {
-        path: 'title',
+        path: 'children[?(@.name==="title")]',
         actionKey: 'delete'
     }, {
-        path: 'text',
+        path: 'children[?(@.name==="text")]',
         actionKey: 'delete'
     }, {
-        path: 'entry[*].act.id',
-        actionKey: 'delete'
+        path: 'children[?(@.name==="entry")].children[?(@.name==="act")]',
+        actionKey: 'root',
+        children: [{
+            path: 'children[?(@.name==="id")]',
+            actionKey: 'delete'
+        }, {
+            path: 'children[?(@.name==="effectiveTime")]',
+            actionKey: 'delete'
+        }, {
+            path: 'children[?(@.name==="entryRelationship")].children[?(@.name==="observation")].children[?(@.name==="text")]',
+            actionKey: 'delete'
+        }, {
+            path: 'children[?(@.name==="entryRelationship")].children[?(@.name==="observation")].children[?(@.name==="effectiveTime")]',
+            actionKey: 'delete'
+        }, {
+            path: 'children[?(@.name==="entryRelationship")].children[?(@.name==="observation")].children[?(@.name==="id")]',
+            actionKey: 'delete'
+        }, {
+            path: 'children[?(@.name==="entryRelationship")].children[?(@.name==="observation")].children[?(@.name==="entryRelationship")].children[?(@.name==="observation")].children[?((@.name==="code")&&(@.attr.displayName!=="Status"))].^.^.^.^',
+            actionKey: 'delete'
+        }, {
+            path: 'children[?(@.name==="entryRelationship")].children[?(@.name==="observation")].children[?(@.name==="entryRelationship")].children[?(@.name==="observation")].children[?(@.name==="text")]',
+            actionKey: 'delete'
+        }, {
+            path: 'children[?(@.name==="entryRelationship")].children[?(@.name==="observation")].children[?(@.name==="entryRelationship")].children[?(@.name==="observation")].children[?(@.name==="id")]',
+            actionKey: 'delete'
+        }, {
+            path: 'children[?(@.name==="entryRelationship")].children[?(@.name==="observation")].children[?(@.name==="entryRelationship")].children[?(@.name==="observation")].children[?(@.name==="effectiveTime")]',
+            actionKey: 'delete'
+        }]
     }, {
-        path: 'entry[*].act.effectiveTime',
-        actionKey: 'delete'
-    }, {
-        path: 'entry[*].act.entryRelationship[*].observation.value[?(@.code==="195967001")].^.^.^.^.^.^',
-        actionKey: 'delete',
-    }, {
-        path: 'entry[*].act.entryRelationship[*].observation.text',
-        actionKey: 'delete',
-    }, {
-        path: 'entry[*].act.entryRelationship[*].observation.effectiveTime',
-        actionKey: 'delete',
-    }, {
-        path: 'entry[*].act.entryRelationship[*].observation.id',
-        actionKey: 'delete',
-    }, {
-        path: 'entry[*].act.entryRelationship[*].observation.entryRelationship[?(@.observation.code["$"].displayName!=="Status")]',
-        actionKey: 'delete',
-    }, {
-        path: 'entry[*].act.entryRelationship[*].observation.entryRelationship[*].observation.effectiveTime',
-        actionKey: 'delete',
-    }, {
-        path: 'entry[*].act.entryRelationship[*].observation.entryRelationship[*].observation.id',
-        actionKey: 'delete',
-    }, {
-        path: 'entry[*].act.entryRelationship[*].observation.entryRelationship[*].observation.text',
-        actionKey: 'delete',
-    }, {
-        path: 'entry[*].act.entryRelationship[*].observation.code',
+        path: 'children[?(@.name==="entry")].children[?(@.name==="act")].children[?(@.name==="entryRelationship")].children[?(@.name==="observation")].children[?((@.name==="value")&&(@.attr.displayName==="Asthma"))].^.^.^.^.^.^.^.^',
         actionKey: 'delete',
     }]
 }];
@@ -194,25 +182,33 @@ var actionInfosGenerated = [{
         actionKey: 'delete'
     }]
 }, {
-    path: 'ClinicalDocument.component.structuredBody.component[*].section.templateId[?(@["$"].root==="2.16.840.1.113883.10.20.22.2.5")].^.^',
+    path: 'children[?(@.name==="component")].children[*].children[*].children[*].children[?((@.name==="templateId")&&(@.attr.root==="2.16.840.1.113883.10.20.22.2.5.1"))].^.^',
     actionKey: 'root',
     children: [{
-        path: 'code["$"].displayName',
+        path: 'children[?(@.name==="code")].attr.displayName',
         actionKey: 'delete'
     }, {
-        path: 'title',
+        path: 'children[?(@.name==="title")]',
         actionKey: 'delete'
     }, {
-        path: 'entry[*].act.entryRelationship[*].observation.value[?(@.code==="CONC")].^.^.^.^.^.^',
+        path: 'children[?(@.name==="entry")].children[?(@.name==="act")].children[?(@.name==="entryRelationship")].children[?(@.name==="observation")].children[?((@.name==="value")&&(@.attr.code==="CONC"))].^.^.^.^.^.^.^.^',
         actionKey: 'delete',
     }, {
-        path: 'entry[*].act.entryRelationship[*].observation.value["$"].codeSystemName',
+        path: 'children[?(@.name==="entry")].children[?(@.name==="act")].children[?(@.name==="entryRelationship")].children[?(@.name==="observation")].children[?(@.name==="value")].attr.codeSystemName',
         actionKey: 'delete',
     }, {
-        path: 'entry[*].act.entryRelationship[*].observation.entryRelationship[*].observation.code["$"].codeSystemName',
+        path: 'children[?(@.name==="entry")].children[?(@.name==="act")].children[?(@.name==="entryRelationship")].children[?(@.name==="observation")].children[?(@.name==="code")].attr.codeSystemName',
         actionKey: 'delete',
     }, {
-        path: 'entry[*].act.entryRelationship[*].observation.code',
+        path: 'children[?(@.name==="entry")].children[?(@.name==="act")].children[?(@.name==="entryRelationship")].children[?(@.name==="observation")].children[?(@.name==="code")].attr.code',
+        actionKey: 'modify',
+        value: '409586006'
+    }, {
+        path: 'children[?(@.name==="entry")].children[?(@.name==="act")].children[?(@.name==="entryRelationship")].children[?(@.name==="observation")].children[?(@.name==="code")].attr.displayName',
+        actionKey: 'modify',
+        value: 'Complaint'
+    }, {
+        path: 'children[?(@.name==="entry")].children[?(@.name==="act")].children[?(@.name==="entryRelationship")].children[?(@.name==="observation")].children[?(@.name==="entryRelationship")].children[?(@.name==="observation")].children[?(@.name==="code")].attr.codeSystemName',
         actionKey: 'delete',
     }]
 }];
