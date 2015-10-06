@@ -5,16 +5,86 @@ var chai = require('chai');
 var fs = require("fs");
 var path = require('path');
 
-var xml2js = require('xml2js');
 var cdafhir = require('cda-fhir');
 var _ = require('lodash');
 
 var fhir2ccda = require('../../index');
 var jsonUtil = require('../util/json-transform');
+var xml2js = require('../util/xml2js');
 
 var expect = chai.expect;
 
 var actionInfos = [{
+    path: 'children[?(@.name==="id")]',
+    actionKey: 'delete'
+}, {
+    path: 'children[?(@.name==="effectiveTime")]',
+    actionKey: 'delete'
+}, {
+    path: 'children[?(@.name==="confidentialityCode")]',
+    actionKey: 'delete'
+}, {
+    path: 'children[?(@.name==="setId")]',
+    actionKey: 'delete'
+}, {
+    path: 'children[?(@.name==="author")]',
+    actionKey: 'delete'
+}, {
+    path: 'children[?(@.name==="dataEnterer")]',
+    actionKey: 'delete'
+}, {
+    path: 'children[?(@.name==="informant")]',
+    actionKey: 'delete'
+}, {
+    path: 'children[?(@.name==="custodian")]',
+    actionKey: 'delete'
+}, {
+    path: 'children[?(@.name==="informationRecipient")]',
+    actionKey: 'delete'
+}, {
+    path: 'children[?(@.name==="legalAuthenticator")]',
+    actionKey: 'delete'
+}, {
+    path: 'children[?(@.name==="authenticator")]',
+    actionKey: 'delete'
+}, {
+    path: 'children[?(@.name==="documentationOf")]',
+    actionKey: 'delete'
+}, {
+    path: 'children[?(@.name==="recordTarget")].children[?(@.name==="patientRole")]',
+    actionKey: 'root',
+    children: [{
+        path: 'children[?(@.name==="patient")].children[?(@.name==="name")].attr',
+        actionKey: 'delete'
+    }, {
+        path: 'children[?(@.name==="patient")].children[?(@.name==="maritalStatusCode")].attr.codeSystemName',
+        actionKey: 'delete'
+    }, {
+        path: 'children[?(@.name==="patient")].children[?(@.name==="religiousAffiliationCode")].attr.codeSystemName',
+        actionKey: 'delete'
+    }, {
+        path: 'children[?(@.name==="patient")].children[?(@.name==="raceCode")].attr.codeSystemName',
+        actionKey: 'delete'
+    }, {
+        path: 'children[?(@.name==="patient")].children[?(@.name==="ethnicGroupCode")].attr.codeSystemName',
+        actionKey: 'delete'
+    }, {
+        path: 'children[?(@.name==="patient")].children[?(@.name==="guardian")]',
+        actionKey: 'delete'
+    }, {
+        path: 'children[?(@.name==="patient")].children[?(@.name==="languageCommunication")].children[?(@.name==="modeCode")]',
+        actionKey: 'delete'
+    }, {
+        path: 'children[?(@.name==="patient")].children[?(@.name==="languageCommunication")].children[?(@.name==="proficiencyLevelCode")]',
+        actionKey: 'delete'
+    }, {
+        path: 'children[?(@.name==="providerOrganization")]',
+        actionKey: 'delete'
+    }]
+}, {
+    path: 'children[?(@.name==="component")].children[*].children[*].children[*].children[?((@.name==="templateId")&&(["2.16.840.1.113883.10.20.22.2.6x", "2.16.840.1.113883.10.20.22.2.6.1x", "2.16.840.1.113883.10.20.22.2.5x", "2.16.840.1.113883.10.20.22.2.5.1x"].indexOf(@.attr.root)<0))].^.^.^.^.^.^.^.^',
+    actionKey: 'delete'
+}, {
     path: 'ClinicalDocument.component.structuredBody.component',
     actionKey: 'arrayize'
 }, {
@@ -26,87 +96,6 @@ var actionInfos = [{
 }, {
     path: 'ClinicalDocument.component.structuredBody.component[*]..originalText',
     actionKey: 'delete'
-}, {
-    path: 'ClinicalDocument.id',
-    actionKey: 'delete'
-}, {
-    path: 'ClinicalDocument.effectiveTime',
-    actionKey: 'delete'
-}, {
-    path: 'ClinicalDocument.confidentialityCode',
-    actionKey: 'delete'
-}, {
-    path: 'ClinicalDocument.setId',
-    actionKey: 'delete'
-}, {
-    path: 'ClinicalDocument.recordTarget.patientRole.patient.name["$"]',
-    actionKey: 'delete'
-}, {
-    path: 'ClinicalDocument.recordTarget.patientRole.patient.maritalStatusCode["$"].codeSystemName',
-    actionKey: 'delete'
-}, {
-    path: 'ClinicalDocument.recordTarget.patientRole.patient.religiousAffiliationCode["$"].codeSystemName',
-    actionKey: 'delete'
-}, {
-    path: 'ClinicalDocument.recordTarget.patientRole.patient.raceCode["$"].codeSystemName',
-    actionKey: 'delete'
-}, {
-    path: 'ClinicalDocument.recordTarget.patientRole.patient.ethnicGroupCode["$"].codeSystemName',
-    actionKey: 'delete'
-}, {
-    path: 'ClinicalDocument.recordTarget.patientRole.patient.guardian',
-    actionKey: 'delete'
-}, {
-    path: 'ClinicalDocument.recordTarget.patientRole.patient.languageCommunication.modeCode',
-    actionKey: 'delete'
-}, {
-    path: 'ClinicalDocument.recordTarget.patientRole.patient.languageCommunication.proficiencyLevelCode',
-    actionKey: 'delete'
-}, {
-    path: 'ClinicalDocument.recordTarget.patientRole.providerOrganization',
-    actionKey: 'delete'
-}, {
-    path: 'ClinicalDocument.author',
-    actionKey: 'delete'
-}, {
-    path: 'ClinicalDocument.dataEnterer',
-    actionKey: 'delete'
-}, {
-    path: 'ClinicalDocument.informant',
-    actionKey: 'delete'
-}, {
-    path: 'ClinicalDocument.custodian',
-    actionKey: 'delete'
-}, {
-    path: 'ClinicalDocument.informationRecipient',
-    actionKey: 'delete'
-}, {
-    path: 'ClinicalDocument.legalAuthenticator',
-    actionKey: 'delete'
-}, {
-    path: 'ClinicalDocument.authenticator',
-    actionKey: 'delete'
-}, {
-    path: 'ClinicalDocument.documentationOf',
-    actionKey: 'delete'
-}, {
-    path: 'ClinicalDocument.component.structuredBody.component[*].section.templateId[?(["2.16.840.1.113883.10.20.22.2.6", "2.16.840.1.113883.10.20.22.2.6.1", "2.16.840.1.113883.10.20.22.2.5", "2.16.840.1.113883.10.20.22.2.5.1"].indexOf(@["$"].root)<0)].^.^.^',
-    actionKey: 'delete'
-}, {
-    path: 'ClinicalDocument.recordTarget.patientRole.addr',
-    actionKey: 'arrayize'
-}, {
-    path: 'ClinicalDocument.recordTarget.patientRole.telecom',
-    actionKey: 'arrayize'
-}, {
-    path: 'ClinicalDocument.recordTarget.patientRole.addr[0].streetAddressLine',
-    actionKey: 'arrayize'
-}, {
-    path: 'ClinicalDocument.recordTarget.patientRole.patient.name.family',
-    actionKey: 'arrayize'
-}, {
-    path: 'ClinicalDocument.recordTarget.patientRole.patient.languageCommunication',
-    actionKey: 'arrayize'
 }, {
     path: 'ClinicalDocument.component.structuredBody.component[*].section.templateId[?(@["$"].root==="2.16.840.1.113883.10.20.22.2.6.1")].^.^',
     actionKey: 'root',
@@ -245,6 +234,15 @@ var actionInfosGenerated = [{
 describe('xml vs parse-generate xml ', function () {
     var generatedDir = null;
     var sampleDir = null;
+    
+    var writeDebugFile = function(filename, content) {
+        var filepath = path.join(generatedDir, filename);
+        if (filename.split('.')[1] === 'json') {
+            content = JSON.stringify(content, undefined, 4);
+        }
+        fs.writeFileSync(filepath, content);
+    };
+
     before(function () {
         sampleDir = path.join(__dirname, "../samples");
         expect(sampleDir).not.to.equal(null);
@@ -260,7 +258,6 @@ describe('xml vs parse-generate xml ', function () {
     });
 
     var ccdaRaw = null;
-
     it('read ccda', function () {
         var filepath = path.join(sampleDir, 'CCD_1.xml');
         ccdaRaw = fs.readFileSync(filepath).toString();
@@ -268,24 +265,16 @@ describe('xml vs parse-generate xml ', function () {
     });
 
     var ccdaJSONOriginal = null;
+    it('ccda-json original', function () {
+        ccdaJSONOriginal = xml2js(ccdaRaw);
+        expect(ccdaJSONOriginal).to.not.to.equal(null);
+        writeDebugFile('CCD_1_original.json', ccdaJSONOriginal);
 
-    it('ccda-json original', function (done) {
-        var parser = new xml2js.Parser({
-            async: false,
-            explicitArray: false
-        });
-        parser.parseString(ccdaRaw, function (err, result) {
-            ccdaJSONOriginal = result;
-            var ccdaJSONOriginalJS = JSON.stringify(ccdaJSONOriginal, undefined, 4);
-            var filepath = path.join(generatedDir, 'CCD_1_original.json');
-            fs.writeFileSync(filepath, ccdaJSONOriginalJS);
-            jsonUtil.transform(ccdaJSONOriginal, actionInfos);
-            done(err);
-        });
+        jsonUtil.transform(ccdaJSONOriginal, actionInfos);
+        writeDebugFile('CCD_1_original_modified.json', ccdaJSONOriginal);
     });
 
     var fhir = null;
-
     it('ccda-json original to fhir', function (done) {
         var filepath = path.join(sampleDir, 'CCD_1.xml');
         var istream = fs.createReadStream(filepath, 'utf-8');
@@ -297,10 +286,7 @@ describe('xml vs parse-generate xml ', function () {
             .on('data', function (data) {
                 fhir = data;
                 expect(!!fhir).to.equal(true);
-                var outFilepath = path.join(generatedDir, 'CCD_1_fhir.json');
-                var fhirOut = JSON.stringify(fhir, undefined, 4);
-                expect(!!fhir).to.equal(true);
-                fs.writeFileSync(outFilepath, fhirOut);
+                writeDebugFile('CCD_1_fhir.json', fhir);
             })
             .on('finish', function () {
                 done();
@@ -311,28 +297,19 @@ describe('xml vs parse-generate xml ', function () {
     });
 
     var ccdaJSONGenerated = null;
-
     it('fhir to ccda-json', function () {
         ccdaJSONGenerated = fhir2ccda.generateCCD(fhir, {
             json: true
         });
-        var filepath = path.join(generatedDir, 'CCD_1_generated.json');
-        var ccdaJSONGeneratedOut = JSON.stringify(ccdaJSONGenerated, undefined, 4);
-        fs.writeFileSync(filepath, ccdaJSONGeneratedOut);
+        writeDebugFile('CCD_1_generated.json', ccdaJSONGenerated);
 
-        var filepathOriginal = path.join(generatedDir, 'CCD_1_original_modified.json');
-        var ccdaJSONOriginalJS = JSON.stringify(ccdaJSONOriginal, undefined, 4);
-        fs.writeFileSync(filepathOriginal, ccdaJSONOriginalJS);
+        jsonUtil.transform(ccdaJSONGenerated, actionInfosGenerated);
+        writeDebugFile('CCD_1_generated_modified.json', ccdaJSONGenerated);
 
-        var ccdaJSONGeneratedMod = _.cloneDeep(ccdaJSONGenerated);
-        jsonUtil.transform(ccdaJSONGeneratedMod, actionInfosGenerated);
-        filepath = path.join(generatedDir, 'CCD_1_generated_post.json');
-        ccdaJSONGeneratedOut = JSON.stringify(ccdaJSONGeneratedMod, undefined, 4);
-        fs.writeFileSync(filepath, ccdaJSONGeneratedOut);
-        expect(ccdaJSONGeneratedMod).to.deep.equal(ccdaJSONOriginal);
+        expect(ccdaJSONGenerated).to.deep.equal(ccdaJSONOriginal);
     });
 
-    it('fhir to ccda', function (done) {
+    xit('fhir to ccda', function (done) {
         var ccdaGenerated = fhir2ccda.generateCCD(fhir);
         var filepath = path.join(generatedDir, 'CCD_1_generated.xml');
         fs.writeFileSync(filepath, ccdaGenerated);
