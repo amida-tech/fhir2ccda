@@ -51,6 +51,11 @@ exports.transform = (function () {
                     var property = path[n - 1];
                     if (parent !== null) {
                         fn(parent, property);
+                        if (Array.isArray(parent) && (parent.length === 0) && (n > 2)) {
+                            var grandParentPath = path.slice(0, n - 2);
+                            var grandParent = _.get(obj, grandParentPath, null);
+                            delete grandParent[path[n - 2]];
+                        }
                     }
                 }
             });
