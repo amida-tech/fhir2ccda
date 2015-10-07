@@ -101,9 +101,47 @@ module.exports = exports = [{
             path: 'children[?(@.name==="entryRelationship")].children[?(@.name==="observation")].children[?(@.name==="value")]',
             actionKey: 'delete'
         }, {
-            path: 'children[?(@.name==="entryRelationship")].children[?(@.name==="observation")].children[?(@.name==="entryRelationship")].children[?(@.name==="observation")].children[?((@.name==="templateId")&&(@.attr.root!=="2.16.840.1.113883.10.20.22.4.28"))].^.^.^.^',
+            path: 'children[?(@.name==="entryRelationship")].children[?(@.name==="observation")].children[?(@.name==="entryRelationship")].children[?(@.name==="observation")].children[?((@.name==="templateId")&&(@.attr.root==="2.16.840.1.113883.10.20.22.4.8"))].^.^.^.^',
             actionKey: 'delete'
+        }, {
+            path: 'children[?(@.name==="entryRelationship")].children[?(@.name==="observation")].children[?(@.name==="entryRelationship")].children[?(@.name==="observation")].children[?((@.name==="templateId")&&(@.attr.root==="2.16.840.1.113883.10.20.22.4.9"))].^.^',
+            actionKey: 'root',
+            children: [{
+                path: 'children[?(@.name==="id")]',
+                actionKey: 'delete'
+            }, {
+                path: 'children[?(@.name==="text")]',
+                actionKey: 'delete'
+            }, {
+                path: 'children[?(@.name==="effectiveTime")]',
+                actionKey: 'delete'
+            }]
+        }, {
+            path: 'children[?(@.name==="entryRelationship")].children[?(@.name==="observation")].children[?(@.name==="entryRelationship")].children[?(@.name==="observation")].children[?((@.name==="templateId")&&(@.attr.root==="2.16.840.1.113883.10.20.22.4.9"))].^.^',
+            actionKey: 'root',
+            children: [{
+                path: 'children[?(@.name==="id")]',
+                actionKey: 'delete'
+            }, {
+                path: 'children[?(@.name==="text")]',
+                actionKey: 'delete'
+            }, {
+                path: 'children[?(@.name==="effectiveTime")]',
+                actionKey: 'delete'
+            }, {
+                path: 'children[?(@.name==="entryRelationship")].children[?(@.name==="observation")].children[?(@.name==="text")]',
+                actionKey: 'delete'
+            }, {
+                path: 'children[?(@.name==="entryRelationship")].children[?(@.name==="observation")].children[?(@.name==="interpretationCode")]',
+                actionKey: 'delete'
+            }]
         }]
+    }, {
+        path: 'children[?(@.name==="entry")].children[?(@.name==="act")].children[?(@.name==="entryRelationship")].children[?(@.name==="observation")].children[?((@.name==="entryRelationship")&&(@.attr.typeCode==="MFST"))].children[?(@.name==="observation")]..children[?(@.name==="entryRelationship")].children[?(@.name==="observation")].children[?(@.name==="value")].attr.code',
+        actionKey: 'delete'
+    }, {
+        path: 'children[?(@.name==="entry")].children[?(@.name==="act")].children[?(@.name==="entryRelationship")].children[?(@.name==="observation")].children[?((@.name==="entryRelationship")&&(@.attr.typeCode==="MFST"))].children[?(@.name==="observation")]..children[?(@.name==="entryRelationship")].children[?(@.name==="observation")].children[?(@.name==="value")].attr.displayName',
+        actionKey: 'delete'
     }]
 }, {
     path: 'children[?(@.name==="component")].children[*].children[*].children[*].children[?((@.name==="templateId")&&(@.attr.root==="2.16.840.1.113883.10.20.22.2.5.1"))].^.^',
@@ -148,8 +186,5 @@ module.exports = exports = [{
             path: 'children[?(@.name==="entryRelationship")].children[?(@.name==="observation")].children[?(@.name==="entryRelationship")].children[?(@.name==="observation")].children[?(@.name==="effectiveTime")]',
             actionKey: 'delete'
         }]
-    }, {
-        path: 'children[?(@.name==="entry")].children[?(@.name==="act")].children[?(@.name==="entryRelationship")].children[?(@.name==="observation")].children[?((@.name==="value")&&(@.attr.displayName==="Asthma"))].^.^.^.^.^.^.^.^',
-        actionKey: 'delete',
     }]
 }];
