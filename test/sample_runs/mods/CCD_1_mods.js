@@ -1,189 +1,199 @@
 "use strict";
 
+var modsUtil = require('./modsUtil');
+
+var _p = modsUtil.toJSONPath;
+var _t = modsUtil.toTemplateIdSelect;
+var _s = modsUtil.toSelect;
+var _a = modsUtil.toAttributeSelect;
+var _tex = modsUtil.toTemplateIdExlusion;
+
+var supportedSections = ['2.16.840.1.113883.10.20.22.2.6', '2.16.840.1.113883.10.20.22.2.6.1', '2.16.840.1.113883.10.20.22.2.5', '2.16.840.1.113883.10.20.22.2.5.1'];
+
 module.exports = exports = [{
-    path: 'children[?(@.name==="id")]',
+    path: _p('id'),
     actionKey: 'delete'
 }, {
-    path: 'children[?(@.name==="effectiveTime")]',
+    path: _p('effectiveTime'),
     actionKey: 'delete'
 }, {
-    path: 'children[?(@.name==="confidentialityCode")]',
+    path: _p('confidentialityCode'),
     actionKey: 'delete'
 }, {
-    path: 'children[?(@.name==="setId")]',
+    path: _p('setId'),
     actionKey: 'delete'
 }, {
-    path: 'children[?(@.name==="author")]',
+    path: _p('author'),
     actionKey: 'delete'
 }, {
-    path: 'children[?(@.name==="dataEnterer")]',
+    path: _p('dataEnterer'),
     actionKey: 'delete'
 }, {
-    path: 'children[?(@.name==="informant")]',
+    path: _p('informant'),
     actionKey: 'delete'
 }, {
-    path: 'children[?(@.name==="custodian")]',
+    path: _p('custodian'),
     actionKey: 'delete'
 }, {
-    path: 'children[?(@.name==="informationRecipient")]',
+    path: _p('informationRecipient'),
     actionKey: 'delete'
 }, {
-    path: 'children[?(@.name==="legalAuthenticator")]',
+    path: _p('legalAuthenticator'),
     actionKey: 'delete'
 }, {
-    path: 'children[?(@.name==="authenticator")]',
+    path: _p('authenticator'),
     actionKey: 'delete'
 }, {
-    path: 'children[?(@.name==="documentationOf")]',
+    path: _p('documentationOf'),
     actionKey: 'delete'
 }, {
-    path: 'children[?(@.name==="recordTarget")].children[?(@.name==="patientRole")]',
+    path: _p('recordTarget.patientRole'),
     actionKey: 'root',
     children: [{
-        path: 'children[?(@.name==="patient")].children[?(@.name==="name")].attr',
+        path: _p('patient.name', 'attr'),
         actionKey: 'delete'
     }, {
-        path: 'children[?(@.name==="patient")].children[?(@.name==="maritalStatusCode")].attr.codeSystemName',
+        path: _p('patient.maritalStatusCode', 'attr.codeSystemName'),
         actionKey: 'delete'
     }, {
-        path: 'children[?(@.name==="patient")].children[?(@.name==="religiousAffiliationCode")].attr.codeSystemName',
+        path: _p('patient.religiousAffiliationCode', 'attr.codeSystemName'),
         actionKey: 'delete'
     }, {
-        path: 'children[?(@.name==="patient")].children[?(@.name==="raceCode")].attr.codeSystemName',
+        path: _p('patient.raceCode', 'attr.codeSystemName'),
         actionKey: 'delete'
     }, {
-        path: 'children[?(@.name==="patient")].children[?(@.name==="ethnicGroupCode")].attr.codeSystemName',
+        path: _p('patient.ethnicGroupCode', 'attr.codeSystemName'),
         actionKey: 'delete'
     }, {
-        path: 'children[?(@.name==="patient")].children[?(@.name==="guardian")]',
+        path: _p('patient.guardian'),
         actionKey: 'delete'
     }, {
-        path: 'children[?(@.name==="patient")].children[?(@.name==="languageCommunication")].children[?(@.name==="modeCode")]',
+        path: _p('patient.languageCommunication.modeCode'),
         actionKey: 'delete'
     }, {
-        path: 'children[?(@.name==="patient")].children[?(@.name==="languageCommunication")].children[?(@.name==="proficiencyLevelCode")]',
+        path: _p('patient.languageCommunication.proficiencyLevelCode'),
         actionKey: 'delete'
     }, {
-        path: 'children[?(@.name==="providerOrganization")]',
+        path: _p('providerOrganization'),
         actionKey: 'delete'
     }]
 }, {
-    path: 'children[?(@.name==="component")]..children[?(@.name==="originalText")]',
+    path: _p('component') + '..' + _p('originalText'),
     actionKey: 'delete'
 }, {
-    path: 'children[?(@.name==="component")].children[*].children[*].children[*].children[?((@.name==="templateId")&&(["2.16.840.1.113883.10.20.22.2.6", "2.16.840.1.113883.10.20.22.2.6.1", "2.16.840.1.113883.10.20.22.2.5", "2.16.840.1.113883.10.20.22.2.5.1"].indexOf(@.attr.root)<0))].^.^.^.^',
+    path: _p('component.*.*.*') + _tex(supportedSections) + '.^.^.^.^',
     actionKey: 'delete'
 }, {
-    path: 'children[?(@.name==="component")].children[*].children[*].children[*].children[?((@.name==="templateId")&&(@.attr.root==="2.16.840.1.113883.10.20.22.2.6.1"))].^.^',
+    path: _p('component.*.*.*') + _t('2.16.840.1.113883.10.20.22.2.6.1') + '.^.^',
     actionKey: 'root',
     children: [{
-        path: 'children[?(@.name==="title")]',
+        path: _p('title'),
         actionKey: 'delete'
     }, {
-        path: 'children[?(@.name==="text")]',
+        path: _p('text'),
         actionKey: 'delete'
     }, {
-        path: 'children[?(@.name==="entry")].children[?(@.name==="act")]',
+        path: _p('entry.act'),
         actionKey: 'root',
         children: [{
-            path: 'children[?(@.name==="id")]',
+            path: _p('id'),
             actionKey: 'delete'
         }, {
-            path: 'children[?(@.name==="effectiveTime")]',
+            path: _p('effectiveTime'),
             actionKey: 'delete'
         }, {
-            path: 'children[?(@.name==="entryRelationship")].children[?(@.name==="observation")].children[?(@.name==="id")]',
+            path: _p('entryRelationship.observation.id'),
             actionKey: 'delete'
         }, {
-            path: 'children[?(@.name==="entryRelationship")].children[?(@.name==="observation")].children[?(@.name==="effectiveTime")]',
+            path: _p('entryRelationship.observation.effectiveTime'),
             actionKey: 'delete'
         }, {
-            path: 'children[?(@.name==="entryRelationship")].children[?(@.name==="observation")].children[?(@.name==="value")]',
+            path: _p('entryRelationship.observation.value'),
             actionKey: 'delete'
         }, {
-            path: 'children[?(@.name==="entryRelationship")].children[?(@.name==="observation")].children[?(@.name==="entryRelationship")].children[?(@.name==="observation")].children[?((@.name==="templateId")&&(@.attr.root==="2.16.840.1.113883.10.20.22.4.8"))].^.^.^.^',
+            path: _p('entryRelationship.observation.entryRelationship.observation') + _t('2.16.840.1.113883.10.20.22.4.8') + '.^.^.^.^',
             actionKey: 'delete'
         }, {
-            path: 'children[?(@.name==="entryRelationship")].children[?(@.name==="observation")].children[?(@.name==="entryRelationship")].children[?(@.name==="observation")].children[?((@.name==="templateId")&&(@.attr.root==="2.16.840.1.113883.10.20.22.4.9"))].^.^',
+            path: _p('entryRelationship.observation.entryRelationship.observation') + _t('2.16.840.1.113883.10.20.22.4.9') + '.^.^',
             actionKey: 'root',
             children: [{
-                path: 'children[?(@.name==="id")]',
+                path: _p('id'),
                 actionKey: 'delete'
             }, {
-                path: 'children[?(@.name==="text")]',
+                path: _p('text'),
                 actionKey: 'delete'
             }, {
-                path: 'children[?(@.name==="effectiveTime")]',
+                path: _p('effectiveTime'),
                 actionKey: 'delete'
             }]
         }, {
-            path: 'children[?(@.name==="entryRelationship")].children[?(@.name==="observation")].children[?(@.name==="entryRelationship")].children[?(@.name==="observation")].children[?((@.name==="templateId")&&(@.attr.root==="2.16.840.1.113883.10.20.22.4.9"))].^.^',
+            path: _p('entryRelationship.observation.entryRelationship.observation') + _t('2.16.840.1.113883.10.20.22.4.9') + '.^.^',
             actionKey: 'root',
             children: [{
-                path: 'children[?(@.name==="id")]',
+                path: _p('id'),
                 actionKey: 'delete'
             }, {
-                path: 'children[?(@.name==="text")]',
+                path: _p('text'),
                 actionKey: 'delete'
             }, {
-                path: 'children[?(@.name==="effectiveTime")]',
+                path: _p('effectiveTime'),
                 actionKey: 'delete'
             }, {
-                path: 'children[?(@.name==="entryRelationship")].children[?(@.name==="observation")].children[?(@.name==="text")]',
+                path: _p('entryRelationship.observation.text'),
                 actionKey: 'delete'
             }, {
-                path: 'children[?(@.name==="entryRelationship")].children[?(@.name==="observation")].children[?(@.name==="interpretationCode")]',
+                path: _p('entryRelationship.observation.interpretationCode'),
                 actionKey: 'delete'
             }]
         }]
     }, {
-        path: 'children[?(@.name==="entry")].children[?(@.name==="act")].children[?(@.name==="entryRelationship")].children[?(@.name==="observation")].children[?((@.name==="entryRelationship")&&(@.attr.typeCode==="MFST"))].children[?(@.name==="observation")]..children[?(@.name==="entryRelationship")].children[?(@.name==="observation")].children[?(@.name==="value")].attr.code',
+        path: _p('entry.act.entryRelationship.observation') + _a('entryRelationship', 'typeCode', 'MFST') + _p('observation') + '..' + _p('entryRelationship.observation.value', '.attr.code'),
         actionKey: 'delete'
     }, {
-        path: 'children[?(@.name==="entry")].children[?(@.name==="act")].children[?(@.name==="entryRelationship")].children[?(@.name==="observation")].children[?((@.name==="entryRelationship")&&(@.attr.typeCode==="MFST"))].children[?(@.name==="observation")]..children[?(@.name==="entryRelationship")].children[?(@.name==="observation")].children[?(@.name==="value")].attr.displayName',
+        path: _p('entry.act.entryRelationship.observation') + _a('entryRelationship', 'typeCode', 'MFST') + _p('observation') + '..' + _p('entryRelationship.observation.value', '.attr.displayName'),
         actionKey: 'delete'
     }]
 }, {
-    path: 'children[?(@.name==="component")].children[*].children[*].children[*].children[?((@.name==="templateId")&&(@.attr.root==="2.16.840.1.113883.10.20.22.2.5.1"))].^.^',
+    path: _p('component.*.*.*') + _t('2.16.840.1.113883.10.20.22.2.5.1') + '.^.^',
     actionKey: 'root',
     children: [{
-        path: 'children[?(@.name==="code")].attr.displayName',
+        path: _p('code', 'attr.displayName'),
         actionKey: 'delete'
     }, {
-        path: 'children[?(@.name==="title")]',
+        path: _p('title'),
         actionKey: 'delete'
     }, {
-        path: 'children[?(@.name==="text")]',
+        path: _p('text'),
         actionKey: 'delete'
     }, {
-        path: 'children[?(@.name==="entry")].children[?(@.name==="act")]',
+        path: _p('entry.act'),
         actionKey: 'root',
         children: [{
-            path: 'children[?(@.name==="id")]',
+            path: _p('id'),
             actionKey: 'delete'
         }, {
-            path: 'children[?(@.name==="effectiveTime")]',
+            path: _p('effectiveTime'),
             actionKey: 'delete'
         }, {
-            path: 'children[?(@.name==="entryRelationship")].children[?(@.name==="observation")].children[?(@.name==="text")]',
+            path: _p('entryRelationship.observation.text'),
             actionKey: 'delete'
         }, {
-            path: 'children[?(@.name==="entryRelationship")].children[?(@.name==="observation")].children[?(@.name==="effectiveTime")]',
+            path: _p('entryRelationship.observation.effectiveTime'),
             actionKey: 'delete'
         }, {
-            path: 'children[?(@.name==="entryRelationship")].children[?(@.name==="observation")].children[?(@.name==="id")]',
+            path: _p('entryRelationship.observation.id'),
             actionKey: 'delete'
         }, {
-            path: 'children[?(@.name==="entryRelationship")].children[?(@.name==="observation")].children[?(@.name==="entryRelationship")].children[?(@.name==="observation")].children[?((@.name==="code")&&(@.attr.displayName!=="Status"))].^.^.^.^',
+            path: _p('entryRelationship.observation.entryRelationship.observation') + _s('code', '@.attr.displayName!=="Status"') + '.^.^.^.^',
             actionKey: 'delete'
         }, {
-            path: 'children[?(@.name==="entryRelationship")].children[?(@.name==="observation")].children[?(@.name==="entryRelationship")].children[?(@.name==="observation")].children[?(@.name==="text")]',
+            path: _p('entryRelationship.observation.entryRelationship.observation.text'),
             actionKey: 'delete'
         }, {
-            path: 'children[?(@.name==="entryRelationship")].children[?(@.name==="observation")].children[?(@.name==="entryRelationship")].children[?(@.name==="observation")].children[?(@.name==="id")]',
+            path: _p('entryRelationship.observation.entryRelationship.observation.id'),
             actionKey: 'delete'
         }, {
-            path: 'children[?(@.name==="entryRelationship")].children[?(@.name==="observation")].children[?(@.name==="entryRelationship")].children[?(@.name==="observation")].children[?(@.name==="effectiveTime")]',
+            path: _p('entryRelationship.observation.entryRelationship.observation.effectiveTime'),
             actionKey: 'delete'
         }]
     }]
