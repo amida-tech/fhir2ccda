@@ -22,7 +22,7 @@ exports.toJSONPath = function (propertyPath, postProperties) {
 };
 
 exports.toTemplateIdSelect = function (templateId) {
-    return util.format('.children[?((@.name==="templateId")&&(@.attr.root==="%s"))]', templateId);
+    return util.format('children[?((@.name==="templateId")&&(@.attr.root==="%s"))]', templateId);
 };
 
 exports.toTemplateIdExlusion = function (templateIds) {
@@ -33,7 +33,7 @@ exports.toTemplateIdExlusion = function (templateIds) {
         r += util.format('"%s"', t);
         return r;
     }, "");
-    var result = util.format('.children[?((@.name==="templateId")&&([%s].indexOf(@.attr.root)<0))]', a);
+    var result = util.format('children[?((@.name==="templateId")&&([%s].indexOf(@.attr.root)<0))]', a);
     return result;
 };
 
