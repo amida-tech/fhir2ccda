@@ -8,7 +8,14 @@ var _s = modsUtil.toSelect;
 var _a = modsUtil.toAttributeSelect;
 var _tex = modsUtil.toTemplateIdExlusion;
 
-var supportedSections = ['2.16.840.1.113883.10.20.22.2.6', '2.16.840.1.113883.10.20.22.2.6.1', '2.16.840.1.113883.10.20.22.2.5', '2.16.840.1.113883.10.20.22.2.5.1'];
+var supportedSections = [
+    '2.16.840.1.113883.10.20.22.2.6', // allergies
+    '2.16.840.1.113883.10.20.22.2.6.1',
+    '2.16.840.1.113883.10.20.22.2.5', // problems
+    '2.16.840.1.113883.10.20.22.2.5.1',
+    //'2.16.840.1.113883.10.20.22.2.3', // results
+    //'2.16.840.1.113883.10.20.22.2.3.1',
+];
 
 module.exports = exports = [{
     path: _p('id'),
