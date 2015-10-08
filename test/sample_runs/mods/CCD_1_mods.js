@@ -234,4 +234,17 @@ module.exports = exports = [{
             }]
         }]
     }]
+}, {
+    actionKey: 'custom',
+    path: '..children[?(@.attr&&@.attr.code&&@.attr.codeSystem)]',
+    fn: function (parent, property) {
+        var v = parent[property].attr;
+        var orderedAttr = ['xsi:type', 'code', 'displayName', 'codeSystem', 'codeSystemName'].reduce(function (r, key) {
+            if (v[key]) {
+                r[key] = v[key];
+            }
+            return r;
+        }, {});
+        parent[property].attr = orderedAttr;
+    }
 }];

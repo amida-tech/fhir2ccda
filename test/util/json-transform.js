@@ -91,7 +91,11 @@ exports.transform = (function () {
             });
         },
         custom: function (obj, actionInfo) {
-            actionInfo.fn(obj);
+            if (actionInfo.path) {
+                this.applyParentProperty(obj, actionInfo, actionInfo.fn);
+            } else {
+                actionInfo.fn.call(this, obj);
+            }
         },
         root: function (obj, actionInfo) {
             var f = jp(actionInfo.path, {
