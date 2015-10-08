@@ -82,6 +82,17 @@ exports.transform = (function () {
                 parent[property] = actionInfo.value;
             });
         },
+        deletesecond: function (obj, actionInfo) {
+            this.applyParentProperty(obj, actionInfo, function (parent, property) {
+                var v = parent[property];
+                if (v && v.length && (v.length > 12)) {
+                    parent[property] = v.substring(0, 12);
+                }
+            });
+        },
+        custom: function (obj, actionInfo) {
+            actionInfo.fn(obj);
+        },
         root: function (obj, actionInfo) {
             var f = jp(actionInfo.path, {
                 wrap: true

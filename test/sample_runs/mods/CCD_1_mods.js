@@ -13,8 +13,8 @@ var supportedSections = [
     '2.16.840.1.113883.10.20.22.2.6.1',
     '2.16.840.1.113883.10.20.22.2.5', // problems
     '2.16.840.1.113883.10.20.22.2.5.1',
-    //'2.16.840.1.113883.10.20.22.2.3', // results
-    //'2.16.840.1.113883.10.20.22.2.3.1',
+    '2.16.840.1.113883.10.20.22.2.3', // results
+    '2.16.840.1.113883.10.20.22.2.3.1',
 ];
 
 module.exports = exports = [{
@@ -202,6 +202,36 @@ module.exports = exports = [{
         }, {
             path: _p('entryRelationship.observation.entryRelationship.observation.effectiveTime'),
             actionKey: 'delete'
+        }]
+    }]
+}, {
+    path: [_p('component.*.*.*'), _t('2.16.840.1.113883.10.20.22.2.3.1'), '^.^'].join('.'),
+    actionKey: 'root',
+    children: [{
+        path: _p('code', 'attr.displayName'),
+        actionKey: 'delete'
+    }, {
+        path: _p('title'),
+        actionKey: 'delete'
+    }, {
+        path: _p('text'),
+        actionKey: 'delete'
+    }, {
+        path: _p('entry.organizer'),
+        actionKey: 'root',
+        children: [{
+            path: _p('id'),
+            actionKey: 'delete'
+        }, {
+            path: _p('component.observation'),
+            actionKey: 'root',
+            children: [{
+                path: _p('id'),
+                actionKey: 'delete'
+            }, {
+                path: _p('text'),
+                actionKey: 'delete'
+            }]
         }]
     }]
 }];
