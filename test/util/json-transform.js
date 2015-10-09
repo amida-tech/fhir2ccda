@@ -109,6 +109,10 @@ exports.transform = (function () {
         run: function (obj, actionInfos) {
             var self = this;
             actionInfos.forEach(function (actionInfo) {
+                var path = actionInfo.path;
+                if (path && Array.isArray(path)) {
+                    actionInfo.path = path.join('.');
+                }
                 var actionKey = actionInfo.actionKey;
                 var action = self[actionKey];
                 action.call(self, obj, actionInfo);

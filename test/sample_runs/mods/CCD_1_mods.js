@@ -85,13 +85,13 @@ module.exports = exports = [{
         actionKey: 'delete'
     }]
 }, {
-    path: [_p('component'), '', _p('originalText')].join('.'),
+    path: [_p('component'), '', _p('originalText')],
     actionKey: 'delete'
 }, {
-    path: [_p('component.*.*.*'), _tex(supportedSections), '^.^.^.^'].join('.'),
+    path: [_p('component.*.*.*'), _tex(supportedSections), '^.^.^.^'],
     actionKey: 'delete'
 }, {
-    path: [_p('component.*.*.*'), _t('2.16.840.1.113883.10.20.22.2.6.1'), '^.^'].join('.'),
+    path: [_p('component.*.*.*'), _t('2.16.840.1.113883.10.20.22.2.6.1'), '^.^'],
     actionKey: 'root',
     children: [{
         path: _p('title'),
@@ -118,10 +118,10 @@ module.exports = exports = [{
             path: _p('entryRelationship.observation.value'),
             actionKey: 'delete'
         }, {
-            path: [_p('entryRelationship.observation.entryRelationship.observation'), _t('2.16.840.1.113883.10.20.22.4.8'), '^.^.^.^'].join('.'),
+            path: [_p('entryRelationship.observation.entryRelationship.observation'), _t('2.16.840.1.113883.10.20.22.4.8'), '^.^.^.^'],
             actionKey: 'delete'
         }, {
-            path: [_p('entryRelationship.observation.entryRelationship.observation'), _t('2.16.840.1.113883.10.20.22.4.9'), '^.^'].join('.'),
+            path: [_p('entryRelationship.observation.entryRelationship.observation'), _t('2.16.840.1.113883.10.20.22.4.9'), '^.^'],
             actionKey: 'root',
             children: [{
                 path: _p('id'),
@@ -134,7 +134,7 @@ module.exports = exports = [{
                 actionKey: 'delete'
             }]
         }, {
-            path: [_p('entryRelationship.observation.entryRelationship.observation'), _t('2.16.840.1.113883.10.20.22.4.9'), '^.^'].join('.'),
+            path: [_p('entryRelationship.observation.entryRelationship.observation'), _t('2.16.840.1.113883.10.20.22.4.9'), '^.^'],
             actionKey: 'root',
             children: [{
                 path: _p('id'),
@@ -154,14 +154,14 @@ module.exports = exports = [{
             }]
         }]
     }, {
-        path: [_p('entry.act.entryRelationship.observation'), _a('entryRelationship', 'typeCode', 'MFST'), _p('observation'), '', _p('entryRelationship.observation.value', '.attr.code')].join('.'),
+        path: [_p('entry.act.entryRelationship.observation'), _a('entryRelationship', 'typeCode', 'MFST'), _p('observation'), '', _p('entryRelationship.observation.value', '.attr.code')],
         actionKey: 'delete'
     }, {
-        path: [_p('entry.act.entryRelationship.observation'), _a('entryRelationship', 'typeCode', 'MFST'), _p('observation'), '', _p('entryRelationship.observation.value', '.attr.displayName')].join('.'),
+        path: [_p('entry.act.entryRelationship.observation'), _a('entryRelationship', 'typeCode', 'MFST'), _p('observation'), '', _p('entryRelationship.observation.value', '.attr.displayName')],
         actionKey: 'delete'
     }]
 }, {
-    path: [_p('component.*.*.*'), _t('2.16.840.1.113883.10.20.22.2.5.1'), '^.^'].join('.'),
+    path: [_p('component.*.*.*'), _t('2.16.840.1.113883.10.20.22.2.5.1'), '^.^'],
     actionKey: 'root',
     children: [{
         path: _p('code', 'attr.displayName'),
@@ -191,7 +191,7 @@ module.exports = exports = [{
             path: _p('entryRelationship.observation.id'),
             actionKey: 'delete'
         }, {
-            path: [_p('entryRelationship.observation.entryRelationship.observation'), _s('code', '@.attr.displayName!=="Status"'), '^.^.^.^'].join('.'),
+            path: [_p('entryRelationship.observation.entryRelationship.observation'), _s('code', '@.attr.displayName!=="Status"'), '^.^.^.^'],
             actionKey: 'delete'
         }, {
             path: _p('entryRelationship.observation.entryRelationship.observation.text'),
@@ -205,7 +205,7 @@ module.exports = exports = [{
         }]
     }]
 }, {
-    path: [_p('component.*.*.*'), _t('2.16.840.1.113883.10.20.22.2.3.1'), '^.^'].join('.'),
+    path: [_p('component.*.*.*'), _t('2.16.840.1.113883.10.20.22.2.3.1'), '^.^'],
     actionKey: 'root',
     children: [{
         path: _p('code', 'attr.displayName'),
