@@ -12,6 +12,9 @@ var _t = modsUtil.toTemplateIdSelect;
 var _a = modsUtil.toAttributeSelect;
 
 module.exports = exports = [{
+    path: _p('documentationOf'),
+    actionKey: 'delete'
+}, {
     path: [_p('component.*.*.*'), _t('2.16.840.1.113883.10.20.22.2.6.1'), '^.^'],
     actionKey: 'root',
     children: [{
