@@ -106,4 +106,31 @@ module.exports = exports = [{
             obj.children.splice(n - 2, 2);
         }
     }]
+}, {
+    path: [_p('component.*.*.*'), _t('2.16.840.1.113883.10.20.22.2.1.1'), '^.^'],
+    actionKey: 'root',
+    children: [{
+        path: _p('code', 'attr.displayName'),
+        actionKey: 'delete'
+    }, {
+        path: _p('title'),
+        actionKey: 'delete'
+    }, {
+        path: _p('entry.substanceAdministration'),
+        actionKey: 'root',
+        children: [{
+            path: _p('consumable.manufacturedProduct.manufacturedMaterial.code', 'attr.codeSystemName'),
+            actionKey: 'delete'
+        }, {
+            path: [_p('entryRelationship.observation'), _t('2.16.840.1.113883.10.20.22.4.19'), '^.^', _p('value', 'attr.codeSystemName')],
+            actionKey: 'delete'
+        }, {
+            path: [_p('entryRelationship.supply'), _t('2.16.840.1.113883.10.20.22.4.17'), '^.^'],
+            actionKey: 'root',
+            children: [{
+                path: _p('product.manufacturedProduct.manufacturedMaterial.code', 'attr.codeSystemName'),
+                actionKey: 'delete'
+            }]
+        }]
+    }]
 }];

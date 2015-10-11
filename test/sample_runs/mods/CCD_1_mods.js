@@ -15,6 +15,8 @@ var supportedSections = [
     '2.16.840.1.113883.10.20.22.2.5.1',
     '2.16.840.1.113883.10.20.22.2.3', // results
     '2.16.840.1.113883.10.20.22.2.3.1',
+    '2.16.840.1.113883.10.20.22.2.1', // medications
+    '2.16.840.1.113883.10.20.22.2.1.1'
 ];
 
 module.exports = exports = [{
@@ -230,6 +232,115 @@ module.exports = exports = [{
                 actionKey: 'delete'
             }, {
                 path: _p('text'),
+                actionKey: 'delete'
+            }]
+        }]
+    }]
+}, {
+    path: [_p('component.*.*.*'), _t('2.16.840.1.113883.10.20.22.2.1.1'), '^.^'],
+    actionKey: 'root',
+    children: [{
+        path: _p('code', 'attr.displayName'),
+        actionKey: 'delete'
+    }, {
+        path: _p('title'),
+        actionKey: 'delete'
+    }, {
+        path: _p('text'),
+        actionKey: 'delete'
+    }, {
+        path: _p('entry.substanceAdministration'),
+        actionKey: 'root',
+        children: [{
+            path: _p('id'),
+            actionKey: 'delete'
+        }, {
+            path: _p('text'),
+            actionKey: 'delete'
+        }, {
+            path: _p('routeCode', 'attr.codeSystemName'),
+            actionKey: 'delete'
+        }, {
+            path: _p('maxDoseQuantity'),
+            actionKey: 'delete'
+        }, {
+            path: _p('administrationUnitCode', 'attr.codeSystemName'),
+            actionKey: 'delete'
+        }, {
+            path: _p('consumable.manufacturedProduct.id'),
+            actionKey: 'delete'
+        }, {
+            path: _p('consumable.manufacturedProduct.manufacturedMaterial.code.translation'),
+            actionKey: 'delete'
+        }, {
+            path: _p('performer.assignedEntity'),
+            actionKey: 'root',
+            children: [{
+                path: _p('id'),
+                actionKey: 'delete'
+            }, {
+                path: _p('addr'),
+                actionKey: 'delete'
+            }, {
+                path: _p('telecom'),
+                actionKey: 'delete'
+            }, {
+                path: _p('representedOrganization.id'),
+                actionKey: 'delete'
+            }, {
+                path: _p('representedOrganization.telecom'),
+                actionKey: 'delete'
+            }, {
+                path: _p('representedOrganization.addr'),
+                actionKey: 'delete'
+            }]
+        }, {
+            path: _p('participant'),
+            actionKey: 'delete'
+        }, {
+            path: [_p('entryRelationship.observation'), _t('2.16.840.1.113883.10.20.22.4.19'), '^.^', _p('id')],
+            actionKey: 'delete'
+        }, {
+            path: [_p('precondition')],
+            actionKey: 'delete'
+        }, {
+            path: [_p('entryRelationship.supply'), _t('2.16.840.1.113883.10.20.22.4.18'), '^.^.^.^'],
+            actionKey: 'delete'
+        }, {
+            path: [_p('entryRelationship.supply'), _t('2.16.840.1.113883.10.20.22.4.17'), '^.^'],
+            actionKey: 'root',
+            children: [{
+                path: _p('id'),
+                actionKey: 'delete'
+            }, {
+                path: _p('effectiveTime.high'),
+                actionKey: 'delete'
+            }, {
+                path: _p('product.manufacturedProduct.id'),
+                actionKey: 'delete'
+            }, {
+                path: _p('product.manufacturedProduct.manufacturedMaterial.code.translation'),
+                actionKey: 'delete'
+            }, {
+                path: _p('performer'),
+                actionKey: 'delete'
+            }, {
+                path: [_p('entryRelationship.act'), '^.^'],
+                actionKey: 'delete'
+            }, {
+                path: _p('author.time'),
+                actionKey: 'delete'
+            }, {
+                path: _p('author.assignedAuthor.id'),
+                actionKey: 'delete'
+            }, {
+                path: _p('author.assignedAuthor.addr'),
+                actionKey: 'delete'
+            }, {
+                path: _p('author.assignedAuthor.telecom'),
+                actionKey: 'delete'
+            }, {
+                path: _p('author.assignedAuthor.assignedPerson.name.prefix'),
                 actionKey: 'delete'
             }]
         }]
