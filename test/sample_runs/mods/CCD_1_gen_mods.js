@@ -136,4 +136,21 @@ module.exports = exports = [{
             }]
         }]
     }]
+}, {
+    path: [_p('component.*.*.*'), _t('2.16.840.1.113883.10.20.22.2.22.1'), '^.^'],
+    actionKey: 'root',
+    children: [{
+        path: _p('code', 'attr.displayName'),
+        actionKey: 'delete'
+    }, {
+        path: _p('title'),
+        actionKey: 'delete'
+    }, {
+        path: _p('entry.encounter'),
+        actionKey: 'root',
+        children: [{
+            path: _p('entryRelationship.observation.value', 'attr.codeSystemName'),
+            actionKey: 'delete'
+        }]
+    }]
 }];

@@ -16,7 +16,9 @@ var supportedSections = [
     '2.16.840.1.113883.10.20.22.2.3', // results
     '2.16.840.1.113883.10.20.22.2.3.1',
     '2.16.840.1.113883.10.20.22.2.1', // medications
-    '2.16.840.1.113883.10.20.22.2.1.1'
+    '2.16.840.1.113883.10.20.22.2.1.1',
+    '2.16.840.1.113883.10.20.22.2.22', // encounters
+    '2.16.840.1.113883.10.20.22.2.22.1'
 ];
 
 module.exports = exports = [{
@@ -161,6 +163,47 @@ module.exports = exports = [{
     }, {
         path: [_p('entry.act.entryRelationship.observation'), _a('entryRelationship', 'typeCode', 'MFST'), _p('observation'), '', _p('entryRelationship.observation.value', '.attr.displayName')],
         actionKey: 'delete'
+    }]
+}, {
+    path: [_p('component.*.*.*'), _t('2.16.840.1.113883.10.20.22.2.22.1'), '^.^'],
+    actionKey: 'root',
+    children: [{
+        path: _p('code', 'attr.displayName'),
+        actionKey: 'delete'
+    }, {
+        path: _p('title'),
+        actionKey: 'delete'
+    }, {
+        path: _p('text'),
+        actionKey: 'delete'
+    }, {
+        path: _p('entry.encounter'),
+        actionKey: 'root',
+        children: [{
+            path: _p('id'),
+            actionKey: 'delete'
+        }, {
+            path: _p('code.translation', 'attr.codeSystemName'),
+            actionKey: 'delete'
+        }, {
+            path: _p('effectiveTime', 'attr.value'),
+            actionKey: 'custom',
+            fn: function (parent, property) {
+                parent[property] = parent[property].split('+')[0];
+            }
+        }, {
+            path: _p('participant.participantRole.code', 'attr.codeSystemName'),
+            actionKey: 'delete'
+        }, {
+            path: _p('participant.participantRole.telecom'),
+            actionKey: 'delete'
+        }, {
+            path: _p('entryRelationship.observation.id'),
+            actionKey: 'delete'
+        }, {
+            path: _p('entryRelationship.observation.effectiveTime'),
+            actionKey: 'delete'
+        }]
     }]
 }, {
     path: [_p('component.*.*.*'), _t('2.16.840.1.113883.10.20.22.2.5.1'), '^.^'],
