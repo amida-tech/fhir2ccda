@@ -19,6 +19,8 @@ var supportedSections = [
     '2.16.840.1.113883.10.20.22.2.1.1',
     '2.16.840.1.113883.10.20.22.2.22', // encounters
     '2.16.840.1.113883.10.20.22.2.22.1',
+    '2.16.840.1.113883.10.20.22.2.7', // procedures
+    '2.16.840.1.113883.10.20.22.2.7.1',
     '2.16.840.1.113883.10.20.22.2.4', // vitals
     '2.16.840.1.113883.10.20.22.2.4.1'
 ];
@@ -420,6 +422,111 @@ module.exports = exports = [{
         }, {
             path: _p('code', 'attr.codeSystemName'),
             actionKey: 'delete'
+        }]
+    }]
+}, {
+    path: [_p('component.*.*.*'), _t('2.16.840.1.113883.10.20.22.2.7.1'), '^.^'],
+    actionKey: 'root',
+    children: [{
+        path: _p('code', 'attr.displayName'),
+        actionKey: 'delete'
+    }, {
+        path: _p('title'),
+        actionKey: 'delete'
+    }, {
+        path: _p('text'),
+        actionKey: 'delete'
+    }, {
+        path: [_p('entry.act'), '^^'],
+        actionKey: 'delete'
+    }, {
+        path: _p('entry.procedure'),
+        actionKey: 'root',
+        children: [{
+            path: _p('methodCode'),
+            actionKey: 'delete'
+        }, {
+            path: _p('targetSiteCode', 'attr.codeSystemName'),
+            actionKey: 'delete'
+        }, {
+            path: _p('specimen'),
+            actionKey: 'delete'
+        }, {
+            path: _p('performer.assignedEntity.id', 'attr.extension'),
+            actionKey: 'delete'
+        }, {
+            path: _p('performer.assignedEntity.representedOrganization.id'),
+            actionKey: 'delete'
+        }, {
+            path: _p('participant.participantRole.scopingEntity'),
+            actionKey: 'delete'
+        }, {
+            path: _p('performer.assignedEntity.telecom', 'attr'),
+            actionKey: 'custom',
+            fn: function (parent, property) {
+                var v = parent[property];
+                parent[property] = {
+                    value: v.value,
+                    use: v.use
+                };
+            }
+        }, {
+            path: _p('performer.assignedEntity.representedOrganization.telecom', 'attr'),
+            actionKey: 'custom',
+            fn: function (parent, property) {
+                var v = parent[property];
+                parent[property] = {
+                    value: v.value,
+                    use: v.use
+                };
+            }
+        }]
+    }, {
+        path: _p('entry.observation'),
+        actionKey: 'root',
+        children: [{
+            path: _p('id', 'attr.extension'),
+            actionKey: 'delete'
+        }, {
+            path: _p('methodCode'),
+            actionKey: 'delete'
+        }, {
+            path: _p('code', 'attr.codeSystemName'),
+            actionKey: 'delete'
+        }, {
+            path: _p('priorityCode'),
+            actionKey: 'delete'
+        }, {
+            path: _p('value'),
+            actionKey: 'delete'
+        }, {
+            path: _p('performer.assignedEntity.representedOrganization.id'),
+            actionKey: 'delete'
+        }, {
+            path: _p('performer.assignedEntity.representedOrganization.telecom'),
+            actionKey: 'delete'
+        }, {
+            path: _p('performer.assignedEntity.representedOrganization.addr'),
+            actionKey: 'delete'
+        }, {
+            path: _p('performer.assignedEntity.id', 'attr.extension'),
+            actionKey: 'delete'
+        }, {
+            path: _p('participant.participantRole.code', 'attr.codeSystemName'),
+            actionKey: 'delete'
+        }, {
+            path: _p('participant.participantRole.telecom'),
+            actionKey: 'delete'
+        }, {
+            path: _p('performer.assignedEntity.telecom', 'attr'),
+            actionKey: 'custom',
+            fn: function (parent, property) {
+                var v = parent[property];
+                parent[property] = {
+                    value: v.value,
+                    use: v.use
+                };
+            }
         }]
     }]
 }, {
