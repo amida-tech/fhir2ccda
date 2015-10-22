@@ -19,6 +19,7 @@ var supportedSections = [
     '2.16.840.1.113883.10.20.22.2.2.1',
     '2.16.840.1.113883.10.20.22.2.1', // medications
     '2.16.840.1.113883.10.20.22.2.1.1',
+    '2.16.840.1.113883.10.20.22.2.18', // payers
     '2.16.840.1.113883.10.20.22.2.22', // encounters
     '2.16.840.1.113883.10.20.22.2.22.1',
     '2.16.840.1.113883.10.20.22.2.7', // procedures
@@ -578,6 +579,56 @@ module.exports = exports = [{
             actionKey: 'delete'
         }, {
             path: _p('entryRelationship'),
+            actionKey: 'delete'
+        }]
+    }]
+}, {
+    path: [_p('component.*.*.*'), _t('2.16.840.1.113883.10.20.22.2.18'), '^.^'],
+    actionKey: 'root',
+    children: [{
+        path: _p('code', 'attr.displayName'),
+        actionKey: 'delete'
+    }, {
+        path: _p('title'),
+        actionKey: 'delete'
+    }, {
+        path: _p('text'),
+        actionKey: 'delete'
+    }, {
+        path: _p('entry.act'),
+        actionKey: 'root',
+        children: [{
+            path: _p('id'),
+            actionKey: 'delete'
+        }, {
+            path: _p('entryRelationship.act.id'),
+            actionKey: 'delete'
+        }, {
+            path: _p('entryRelationship.act.code'),
+            actionKey: 'delete'
+        }, {
+            path: [_p('entryRelationship.act.performer'), _t('2.16.840.1.113883.10.20.22.4.87'), '^.^', _p('time')],
+            actionKey: 'delete'
+        }, {
+            path: [_p('entryRelationship.act.performer'), _t('2.16.840.1.113883.10.20.22.4.87'), '^.^', _p('assignedEntity.id')],
+            actionKey: 'delete'
+        }, {
+            path: [_p('entryRelationship.act.performer'), _t('2.16.840.1.113883.10.20.22.4.87'), '^.^', _p('assignedEntity.code')],
+            actionKey: 'delete'
+        }, {
+            path: [_p('entryRelationship.act.performer'), _t('2.16.840.1.113883.10.20.22.4.88'), '^.^'],
+            actionKey: 'delete'
+        }, {
+            path: [_p('entryRelationship.act.participant'), _t('2.16.840.1.113883.10.20.22.4.89'), '^.^'],
+            actionKey: 'delete'
+        }, {
+            path: [_p('entryRelationship.act.participant'), _t('2.16.840.1.113883.10.20.22.4.90'), '^.^'],
+            actionKey: 'delete'
+        }, {
+            path: _p('entryRelationship.act.entryRelationship.act.id'),
+            actionKey: 'delete'
+        }, {
+            path: _p('entryRelationship.act.entryRelationship.act.code'),
             actionKey: 'delete'
         }]
     }]
