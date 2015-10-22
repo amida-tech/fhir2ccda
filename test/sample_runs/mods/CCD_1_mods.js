@@ -15,6 +15,8 @@ var supportedSections = [
     '2.16.840.1.113883.10.20.22.2.5.1',
     '2.16.840.1.113883.10.20.22.2.3', // results
     '2.16.840.1.113883.10.20.22.2.3.1',
+    '2.16.840.1.113883.10.20.22.2.2', // immunizations
+    '2.16.840.1.113883.10.20.22.2.2.1',
     '2.16.840.1.113883.10.20.22.2.1', // medications
     '2.16.840.1.113883.10.20.22.2.1.1',
     '2.16.840.1.113883.10.20.22.2.22', // encounters
@@ -527,6 +529,56 @@ module.exports = exports = [{
                     use: v.use
                 };
             }
+        }]
+    }]
+}, {
+    path: [_p('component.*.*.*'), _t('2.16.840.1.113883.10.20.22.2.2.1'), '^.^'],
+    actionKey: 'root',
+    children: [{
+        path: _p('code', 'attr.displayName'),
+        actionKey: 'delete'
+    }, {
+        path: _p('title'),
+        actionKey: 'delete'
+    }, {
+        path: _p('text'),
+        actionKey: 'delete'
+    }, {
+        path: _p('entry.substanceAdministration'),
+        actionKey: 'root',
+        children: [{
+            path: _p('id'),
+            actionKey: 'delete'
+        }, {
+            path: _p('text'),
+            actionKey: 'delete'
+        }, {
+            path: _p('routeCode', 'attr.codeSystemName'),
+            actionKey: 'delete'
+        }, {
+            path: _p('effectiveTime', 'attr.xsi:type'),
+            actionKey: 'delete'
+        }, {
+            path: _p('consumable.manufacturedProduct.manufacturedMaterial.code.translation'),
+            actionKey: 'delete'
+        }, {
+            path: _p('performer.assignedEntity.id', 'attr.extension'),
+            actionKey: 'delete'
+        }, {
+            path: _p('performer.assignedEntity.telecom'),
+            actionKey: 'delete'
+        }, {
+            path: _p('performer.assignedEntity.representedOrganization.id'),
+            actionKey: 'delete'
+        }, {
+            path: _p('performer.assignedEntity.representedOrganization.telecom'),
+            actionKey: 'delete'
+        }, {
+            path: _p('performer.assignedEntity.representedOrganization.addr'),
+            actionKey: 'delete'
+        }, {
+            path: _p('entryRelationship'),
+            actionKey: 'delete'
         }]
     }]
 }, {
