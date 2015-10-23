@@ -20,6 +20,7 @@ var supportedSections = [
     '2.16.840.1.113883.10.20.22.2.1', // medications
     '2.16.840.1.113883.10.20.22.2.1.1',
     '2.16.840.1.113883.10.20.22.2.18', // payers
+    '2.16.840.1.113883.10.20.22.2.17', // social history
     '2.16.840.1.113883.10.20.22.2.22', // encounters
     '2.16.840.1.113883.10.20.22.2.22.1',
     '2.16.840.1.113883.10.20.22.2.7', // procedures
@@ -630,6 +631,38 @@ module.exports = exports = [{
         }, {
             path: _p('entryRelationship.act.entryRelationship.act.code'),
             actionKey: 'delete'
+        }]
+    }]
+}, {
+    path: [_p('component.*.*.*'), _t('2.16.840.1.113883.10.20.22.2.17'), '^.^'],
+    actionKey: 'root',
+    children: [{
+        path: _p('code', 'attr.displayName'),
+        actionKey: 'delete'
+    }, {
+        path: _p('title'),
+        actionKey: 'delete'
+    }, {
+        path: _p('text'),
+        actionKey: 'delete'
+    }, {
+        path: _p('entry.observation'),
+        actionKey: 'root',
+        children: [{
+            path: _p('id'),
+            actionKey: 'delete'
+        }, {
+            path: _p('effectiveTime.high', 'attr.value'),
+            actionKey: 'custom',
+            fn: function (parent, property) {
+                parent[property] = parent[property].split('+')[0];
+            }
+        }, {
+            path: _p('effectiveTime.low', 'attr.value'),
+            actionKey: 'custom',
+            fn: function (parent, property) {
+                parent[property] = parent[property].split('+')[0];
+            }
         }]
     }]
 }, {
