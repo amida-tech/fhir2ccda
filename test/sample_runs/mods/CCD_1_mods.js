@@ -23,6 +23,7 @@ var supportedSections = [
     '2.16.840.1.113883.10.20.22.2.10', // plan of care
     '2.16.840.1.113883.10.20.22.2.17', // social history
     '2.16.840.1.113883.10.20.22.2.22', // encounters
+    '2.16.840.1.113883.10.20.22.2.15', // family history
     '2.16.840.1.113883.10.20.22.2.22.1',
     '2.16.840.1.113883.10.20.22.2.7', // procedures
     '2.16.840.1.113883.10.20.22.2.7.1',
@@ -710,6 +711,59 @@ module.exports = exports = [{
         children: [{
             path: _p('id'),
             actionKey: 'delete'
+        }]
+    }]
+}, {
+    path: [_p('component.*.*.*'), _t('2.16.840.1.113883.10.20.22.2.15'), '^.^'],
+    actionKey: 'root',
+    children: [{
+        path: _p('title'),
+        actionKey: 'delete'
+    }, {
+        path: _p('text'),
+        actionKey: 'delete'
+    }, {
+        path: _p('entry.organizer'),
+        actionKey: 'root',
+        children: [{
+            path: 'attr',
+            actionKey: 'modify',
+            value: {
+                classCode: 'CLUSTER',
+                moodCode: 'EVN'
+            }
+        }, {
+            path: _p('subject.relatedSubject.code', 'attr.codeSystemName'),
+            actionKey: 'delete'
+        }, {
+            path: _p('subject.relatedSubject.code.translation'),
+            actionKey: 'delete'
+        }, {
+            path: _p('subject.relatedSubject.subject.sdtc:id'),
+            actionKey: 'delete'
+        }, {
+            path: _p('component.observation.id'),
+            actionKey: 'delete'
+        }, {
+            path: _p('component.observation.effectiveTime'),
+            actionKey: 'delete'
+        }, {
+            path: _p('component.observation'),
+            actionKey: 'custom',
+            fn: function (parent, property) {
+                if (parent[property].children.length > 5) {
+                    var tmp = parent[property].children[4];
+                    parent[property].children[4] = parent[property].children[5];
+                    parent[property].children[5] = tmp;
+                }
+            }
+        }, {
+            path: [_p('component.observation.entryRelationship.observation'), _t('2.16.840.1.113883.10.20.22.4.47'), '^.^'],
+            actionKey: 'root',
+            children: [{
+                path: _p('id'),
+                actionKey: 'delete'
+            }]
         }]
     }]
 }, {
