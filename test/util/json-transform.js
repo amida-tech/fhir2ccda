@@ -38,6 +38,11 @@ exports.transform = (function () {
                 resultType: 'patharray'
             });
             var paths = f(obj);
+            if (actionInfo.indexes) {
+                paths = actionInfo.indexes.map(function (index) {
+                    return paths[index];
+                });
+            }
             paths.reverse();
             paths = uniqifyPaths(paths);
             paths.forEach(function (path) {
@@ -87,6 +92,14 @@ exports.transform = (function () {
                 var v = parent[property];
                 if (v && v.length && (v.length > 12)) {
                     parent[property] = v.substring(0, 12);
+                }
+            });
+        },
+        deleteminute: function (obj, actionInfo) {
+            this.applyParentProperty(obj, actionInfo, function (parent, property) {
+                var v = parent[property];
+                if (v && v.length && (v.length > 10)) {
+                    parent[property] = v.substring(0, 10);
                 }
             });
         },

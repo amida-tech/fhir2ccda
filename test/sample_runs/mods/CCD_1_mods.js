@@ -24,6 +24,7 @@ var supportedSections = [
     '2.16.840.1.113883.10.20.22.2.17', // social history
     '2.16.840.1.113883.10.20.22.2.22', // encounters
     '2.16.840.1.113883.10.20.22.2.15', // family history
+    '2.16.840.1.113883.10.20.22.2.14', // functional status
     '2.16.840.1.113883.10.20.22.2.22.1',
     '2.16.840.1.113883.10.20.22.2.7', // procedures
     '2.16.840.1.113883.10.20.22.2.7.1',
@@ -764,6 +765,39 @@ module.exports = exports = [{
                 path: _p('id'),
                 actionKey: 'delete'
             }]
+        }]
+    }]
+}, {
+    path: [_p('component.*.*.*'), _t('2.16.840.1.113883.10.20.22.2.14'), '^.^'],
+    actionKey: 'root',
+    children: [{
+        path: _p('text'),
+        actionKey: 'delete'
+    }, {
+        path: _p('entry'),
+        actionKey: 'delete',
+        indexes: [1, 2]
+    }, {
+        path: _p('entry.organizer'),
+        actionKey: 'root',
+        children: [{
+            path: _p('code'),
+            actionKey: 'delete'
+        }, {
+            path: _p('id'),
+            actionKey: 'delete'
+        }, {
+            path: _p('component.observation.entryRelationship'),
+            actionKey: 'delete'
+        }, {
+            path: _p('component.observation.id'),
+            actionKey: 'delete'
+        }, {
+            path: _p('component.observation.text'),
+            actionKey: 'delete'
+        }, {
+            path: _p('component.observation.value', 'attr.xsi:type'),
+            actionKey: 'delete'
         }]
     }]
 }, {
