@@ -25,6 +25,7 @@ var supportedSections = [
     '2.16.840.1.113883.10.20.22.2.22', // encounters
     '2.16.840.1.113883.10.20.22.2.15', // family history
     '2.16.840.1.113883.10.20.22.2.14', // functional status
+    '2.16.840.1.113883.10.20.22.2.23', // medical equipment
     '2.16.840.1.113883.10.20.22.2.22.1',
     '2.16.840.1.113883.10.20.22.2.7', // procedures
     '2.16.840.1.113883.10.20.22.2.7.1',
@@ -799,6 +800,32 @@ module.exports = exports = [{
             path: _p('component.observation.value', 'attr.xsi:type'),
             actionKey: 'delete'
         }]
+    }]
+}, {
+    path: [_p('component.*.*.*'), _t('2.16.840.1.113883.10.20.22.2.23'), '^.^'],
+    actionKey: 'root',
+    children: [{
+        path: _p('text'),
+        actionKey: 'delete'
+    }, {
+        path: _p('title'),
+        actionKey: 'delete'
+    }, {
+        path: _p('entry.supply'),
+        actionKey: 'root',
+        children: [{
+            path: _p('id'),
+            actionKey: 'delete'
+        }, {
+            path: _p('effectiveTime'),
+            actionKey: 'delete'
+        }, {
+            path: _p('quantity'),
+            actionKey: 'delete'
+        }, {
+            path: _p('participant.participantRole.scopingEntity'),
+            actionKey: 'delete'
+        }],
     }]
 }, {
     actionKey: 'custom',
