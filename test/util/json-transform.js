@@ -82,6 +82,18 @@ exports.transform = (function () {
                 }
             });
         },
+        reorder: function (obj, actionInfo) {
+            this.applyParentProperty(obj, actionInfo, function (parent, property) {
+                var obj = parent[property];
+                var reorderedObj = actionInfo.reorderKeys.reduce(function (r, key) {
+                    if (obj.hasOwnProperty(key)) {
+                        r[key] = obj[key];
+                    }
+                    return r;
+                }, {});
+                parent[property] = reorderedObj;
+            });
+        },
         modify: function (obj, actionInfo) {
             this.applyParentProperty(obj, actionInfo, function (parent, property) {
                 parent[property] = actionInfo.value;

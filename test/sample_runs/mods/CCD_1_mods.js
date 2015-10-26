@@ -101,14 +101,8 @@ module.exports = exports = [{
         actionKey: 'delete'
     }, {
         path: _p('providerOrganization.telecom', 'attr'),
-        actionKey: 'custom',
-        fn: function (parent, property) {
-            var v = parent[property];
-            parent[property] = {
-                value: v.value,
-                use: v.use
-            };
-        }
+        actionKey: 'reorder',
+        reorderKeys: ['value', 'use']
     }]
 }, {
     path: [_p('component'), '', _p('originalText')],
@@ -480,24 +474,12 @@ module.exports = exports = [{
             actionKey: 'delete'
         }, {
             path: _p('performer.assignedEntity.telecom', 'attr'),
-            actionKey: 'custom',
-            fn: function (parent, property) {
-                var v = parent[property];
-                parent[property] = {
-                    value: v.value,
-                    use: v.use
-                };
-            }
+            actionKey: 'reorder',
+            reorderKeys: ['value', 'use']
         }, {
             path: _p('performer.assignedEntity.representedOrganization.telecom', 'attr'),
-            actionKey: 'custom',
-            fn: function (parent, property) {
-                var v = parent[property];
-                parent[property] = {
-                    value: v.value,
-                    use: v.use
-                };
-            }
+            actionKey: 'reorder',
+            reorderKeys: ['value', 'use']
         }]
     }, {
         path: _p('entry.observation'),
@@ -537,14 +519,8 @@ module.exports = exports = [{
             actionKey: 'delete'
         }, {
             path: _p('performer.assignedEntity.telecom', 'attr'),
-            actionKey: 'custom',
-            fn: function (parent, property) {
-                var v = parent[property];
-                parent[property] = {
-                    value: v.value,
-                    use: v.use
-                };
-            }
+            actionKey: 'reorder',
+            reorderKeys: ['value', 'use']
         }]
     }]
 }, {
@@ -838,16 +814,7 @@ module.exports = exports = [{
         }],
     }]
 }, {
-    actionKey: 'custom',
-    path: '..children[?(@.attr&&@.attr.code&&@.attr.codeSystem)]',
-    fn: function (parent, property) {
-        var v = parent[property].attr;
-        var orderedAttr = ['xsi:type', 'code', 'displayName', 'codeSystem', 'codeSystemName'].reduce(function (r, key) {
-            if (v[key]) {
-                r[key] = v[key];
-            }
-            return r;
-        }, {});
-        parent[property].attr = orderedAttr;
-    }
+    path: '..children[?(@.attr&&@.attr.code&&@.attr.codeSystem)].attr',
+    actionKey: 'reorder',
+    reorderKeys: ['xsi:type', 'code', 'displayName', 'codeSystem', 'codeSystemName']
 }];
