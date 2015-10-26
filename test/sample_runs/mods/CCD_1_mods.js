@@ -97,8 +97,18 @@ module.exports = exports = [{
         path: _p('patient.languageCommunication.proficiencyLevelCode'),
         actionKey: 'delete'
     }, {
-        path: _p('providerOrganization'),
+        path: _p('providerOrganization.id'),
         actionKey: 'delete'
+    }, {
+        path: _p('providerOrganization.telecom', 'attr'),
+        actionKey: 'custom',
+        fn: function (parent, property) {
+            var v = parent[property];
+            parent[property] = {
+                value: v.value,
+                use: v.use
+            };
+        }
     }]
 }, {
     path: [_p('component'), '', _p('originalText')],

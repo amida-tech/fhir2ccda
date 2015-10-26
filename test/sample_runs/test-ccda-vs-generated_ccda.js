@@ -103,4 +103,26 @@ describe('xml vs parse-generate xml ', function () {
         var ccdaJSONRegenerated = xml2js(ccdaGenerated);
         expect(ccdaJSONRegenerated).to.deep.equal(ccdaJSONGenerated);
     });
+
+    var fhirRE = null;
+    it('ccda generated to fhir and compare', function (done) {
+        var filepath = path.join(generatedDir, 'CCD_1_generated.xml');
+        var istream = fs.createReadStream(filepath, 'utf-8');
+
+        expect(!!istream).to.equal(true);
+
+        istream
+            .pipe(new cdafhir.CcdaParserStream())
+            .on('data', function (data) {
+                fhirRE = data;
+                expect(!!fhirRE).to.equal(true);
+                writeDebugFile('CCD_1_fhir_RE.json', fhirRE);
+            })
+            .on('finish', function () {
+                done();
+            })
+            .on('error', function (err) {
+                done(err);
+            });
+    });
 });
