@@ -344,10 +344,6 @@ module.exports = exports = [{
         path: _p('code', 'attr.codeSystemName'),
         actionKey: 'delete'
     }, {
-        path: _p('entry'),
-        actionKey: 'delete',
-        indexes: [3, 4]
-    }, {
         path: _p('entry.supply'),
         actionKey: 'root',
         children: [{
