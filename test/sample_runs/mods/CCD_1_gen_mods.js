@@ -45,9 +45,9 @@ module.exports = exports = [{
     }, {
         path: _p('title'),
         actionKey: 'delete'
-    }, {
-        path: [_p('entry.act.entryRelationship.observation'), _a('code', 'displayName', 'Finding'), '^.^.^.^.^.^.^.^'],
-        actionKey: 'delete',
+            // }, {
+            //     path: [_p('entry.act.entryRelationship.observation'), _a('code', 'displayName', 'Finding'), '^.^.^.^.^.^.^.^'],
+            //     actionKey: 'delete',
     }, {
         path: _p('entry.act.entryRelationship.observation.value', 'attr.codeSystemName'),
         actionKey: 'delete',

@@ -785,9 +785,9 @@ module.exports = exports = [{
         }, {
             path: _p('component.observation.text'),
             actionKey: 'delete'
-        }, {
-            path: _p('component.observation.value', 'attr.xsi:type'),
-            actionKey: 'delete'
+                //}, {
+                //    path: _p('component.observation.value', 'attr.xsi:type'),
+                //    actionKey: 'delete'
         }]
     }]
 }, {
