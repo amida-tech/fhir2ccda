@@ -88,7 +88,10 @@ module.exports = exports = [{
         path: _p('patient.ethnicGroupCode', 'attr.codeSystemName'),
         actionKey: 'delete'
     }, {
-        path: _p('patient.guardian'),
+        path: _p('patient.guardian.code', 'attr.codeSystemName'),
+        actionKey: 'delete'
+    }, {
+        path: _p('patient.guardian.addr', 'attr'),
         actionKey: 'delete'
     }, {
         path: _p('patient.languageCommunication.modeCode'),
