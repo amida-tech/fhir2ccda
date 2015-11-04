@@ -73,9 +73,6 @@ module.exports = exports = [{
     path: _p('recordTarget.patientRole'),
     actionKey: 'root',
     children: [{
-        path: _p('patient.name', 'attr'),
-        actionKey: 'delete'
-    }, {
         path: _p('patient.maritalStatusCode', 'attr.codeSystemName'),
         actionKey: 'delete'
     }, {
@@ -199,9 +196,6 @@ module.exports = exports = [{
         path: _p('entry.encounter'),
         actionKey: 'root',
         children: [{
-            path: _p('id'),
-            actionKey: 'delete'
-        }, {
             path: _p('code.translation', 'attr.codeSystemName'),
             actionKey: 'delete'
         }, {
@@ -551,9 +545,6 @@ module.exports = exports = [{
             path: _p('routeCode', 'attr.codeSystemName'),
             actionKey: 'delete'
         }, {
-            path: _p('effectiveTime', 'attr.xsi:type'),
-            actionKey: 'delete'
-        }, {
             path: _p('consumable.manufacturedProduct.manufacturedMaterial.code.translation'),
             actionKey: 'delete'
         }, {
@@ -572,7 +563,13 @@ module.exports = exports = [{
             path: _p('performer.assignedEntity.representedOrganization.addr'),
             actionKey: 'delete'
         }, {
-            path: _p('entryRelationship'),
+            path: [_p('entryRelationship.act'), _t('2.16.840.1.113883.10.20.22.4.20'), '^.^.^.^'],
+            actionKey: 'delete'
+        }, {
+            path: [_p('entryRelationship.observation'), _t('2.16.840.1.113883.10.20.22.4.53'), '^.^', _p('id')],
+            actionKey: 'delete'
+        }, {
+            path: [_p('entryRelationship.observation'), _t('2.16.840.1.113883.10.20.22.4.53'), '^.^', _p('code', 'attr.codeSystemName')],
             actionKey: 'delete'
         }]
     }]
