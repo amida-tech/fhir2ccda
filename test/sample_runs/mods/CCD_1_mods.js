@@ -240,7 +240,7 @@ module.exports = exports = [{
             path: _p('entryRelationship.observation.id'),
             actionKey: 'delete'
         }, {
-            path: [_p('entryRelationship.observation.entryRelationship.observation'), _s('code', '@.attr.displayName!=="Status"'), '^.^.^.^'],
+            path: [_p('entryRelationship.observation.entryRelationship.observation'), _t('2.16.840.1.113883.10.20.22.4.5'), '^.^.^.^'],
             actionKey: 'delete'
         }, {
             path: _p('entryRelationship.observation.entryRelationship.observation.text'),
@@ -251,6 +251,11 @@ module.exports = exports = [{
         }, {
             path: _p('entryRelationship.observation.entryRelationship.observation.effectiveTime'),
             actionKey: 'delete'
+        }, {
+            path: [_p('entryRelationship.observation'), 'children'],
+            actionKey: 'swap',
+            key0: 4,
+            key1: 5
         }]
     }]
 }, {

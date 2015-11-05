@@ -94,6 +94,14 @@ exports.transform = (function () {
                 parent[property] = reorderedObj;
             });
         },
+        swap: function (obj, actionInfo) {
+            this.applyParentProperty(obj, actionInfo, function (parent, property) {
+                var obj = parent[property];
+                var tmp = obj[actionInfo.key0];
+                obj[actionInfo.key0] = obj[actionInfo.key1];
+                obj[actionInfo.key1] = tmp;
+            });
+        },
         modify: function (obj, actionInfo) {
             this.applyParentProperty(obj, actionInfo, function (parent, property) {
                 parent[property] = actionInfo.value;
