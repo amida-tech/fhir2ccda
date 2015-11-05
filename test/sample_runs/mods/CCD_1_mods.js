@@ -234,9 +234,6 @@ module.exports = exports = [{
             path: _p('entryRelationship.observation.text'),
             actionKey: 'delete'
         }, {
-            path: _p('entryRelationship.observation.effectiveTime'),
-            actionKey: 'delete'
-        }, {
             path: _p('entryRelationship.observation.id'),
             actionKey: 'delete'
         }, {
@@ -254,8 +251,8 @@ module.exports = exports = [{
         }, {
             path: [_p('entryRelationship.observation'), 'children'],
             actionKey: 'swap',
-            key0: 4,
-            key1: 5
+            key0: 5,
+            key1: 6
         }]
     }]
 }, {
