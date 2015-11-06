@@ -601,7 +601,20 @@ module.exports = exports = [{
             actionKey: 'delete'
         }, {
             path: [_p('entryRelationship.act.performer'), _t('2.16.840.1.113883.10.20.22.4.88'), '^.^'],
-            actionKey: 'delete'
+            actionKey: 'root',
+            children: [{
+                path: _p('assignedEntity.id'),
+                actionKey: 'delete'
+            }, {
+                path: _p('assignedEntity.assignedPerson.name.prefix'),
+                actionKey: 'delete'
+            }, {
+                path: _p('time'),
+                actionKey: 'delete'
+            }, {
+                path: _p('assignedEntity.code', 'attr.codeSystemName'),
+                actionKey: 'delete'
+            }]
         }, {
             path: [_p('entryRelationship.act.participant'), _t('2.16.840.1.113883.10.20.22.4.89'), '^.^'],
             actionKey: 'delete'
