@@ -129,9 +129,6 @@ module.exports = exports = [{
             path: _p('entryRelationship.observation.id'),
             actionKey: 'delete'
         }, {
-            path: _p('entryRelationship.observation.value'),
-            actionKey: 'delete'
-        }, {
             path: [_p('entryRelationship.observation.entryRelationship.observation'), _t('2.16.840.1.113883.10.20.22.4.8'), '^.^.^.^'],
             actionKey: 'delete'
         }, {
