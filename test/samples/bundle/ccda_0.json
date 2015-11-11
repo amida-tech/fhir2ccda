@@ -608,6 +608,43 @@
                                                                     ]
                                                                 }
                                                             ]
+                                                        },
+                                                        {
+                                                            "name": "entryRelationship",
+                                                            "attr": {
+                                                                "typeCode": "SUBJ",
+                                                                "inversionInd": "true"
+                                                            },
+                                                            "children": [
+                                                                {
+                                                                    "name": "act",
+                                                                    "attr": {
+                                                                        "classCode": "ACT",
+                                                                        "moodCode": "EVN"
+                                                                    },
+                                                                    "children": [
+                                                                        {
+                                                                            "name": "templateId",
+                                                                            "attr": {
+                                                                                "root": "2.16.840.1.113883.10.20.22.4.64"
+                                                                            }
+                                                                        },
+                                                                        {
+                                                                            "name": "code",
+                                                                            "attr": {
+                                                                                "code": "48767-8",
+                                                                                "displayName": "Annotation Comment",
+                                                                                "codeSystem": "2.16.840.1.113883.6.1",
+                                                                                "codeSystemName": "LOINC"
+                                                                            }
+                                                                        },
+                                                                        {
+                                                                            "name": "text",
+                                                                            "text": "codeine node here"
+                                                                        }
+                                                                    ]
+                                                                }
+                                                            ]
                                                         }
                                                     ]
                                                 }
