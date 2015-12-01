@@ -1,6 +1,6 @@
 {
     "name": "fhir2ccda",
-    "version": "0.0.2",
+    "version": "2.0.0",
     "description": "FHIR to CCDA",
     "main": "./index.js",
     "directories": {
